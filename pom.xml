@@ -77,6 +77,24 @@
 			<version>2.0.8</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-module-junit4</artifactId>
+			<version>1.7.4</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-api-mockito2</artifactId>
+			<version>1.7.4</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.pitest</groupId>
+			<artifactId>pitest-junit5-plugin</artifactId>
+			<version>1.2.0</version>
+		</dependency>
 
 		<!-- Database -->
 		<dependency>
@@ -96,6 +114,73 @@
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.pitest</groupId>
+				<artifactId>pitest-maven</artifactId>
+				<version>1.14.2</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.pitest</groupId>
+						<artifactId>pitest-junit5-plugin</artifactId>
+						<version>1.2.0</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+
+			<plugin>
+				<groupId>com.rudikershaw.gitbuildhook</groupId>
+				<artifactId>git-build-hook-maven-plugin</artifactId>
+				<version>3.1.0</version>
+				<configuration>
+					<installHooks>
+						<commit-msg>hooks/commit-msg</commit-msg>
+						<pre-commit>hooks/pre-commit</pre-commit>
+					</installHooks>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>install</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>com.diffplug.spotless</groupId>
+				<artifactId>spotless-maven-plugin</artifactId>
+				<version>2.25.0</version>
+				<configuration>
+					<formats>
+						<format>
+							<includes>
+								<include>src/main/java/**/*.java</include>
+							</includes>
+
+							<prettier>
+								<devDependencies>
+									<prettier>2.0.5</prettier>
+									<prettier-plugin-java>0.8.0</prettier-plugin-java>
+								</devDependencies>
+								<config>
+									<tabWidth>4</tabWidth>
+									<parser>java</parser>
+								</config>
+							</prettier>
+						</format>
+					</formats>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>verify</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
