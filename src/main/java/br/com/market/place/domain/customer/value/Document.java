@@ -2,9 +2,10 @@ package br.com.market.place.domain.customer.value;
 
 import am.ik.yavi.core.CustomConstraint;
 import br.com.market.place.domain.shared.exception.InvalidDataException;
+import jakarta.persistence.Embeddable;
 
 import static am.ik.yavi.builder.StringValidatorBuilder.of;
-
+@Embeddable
 public class Document {
     private String document;
     private DocumentType documentType;
