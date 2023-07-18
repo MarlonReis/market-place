@@ -151,11 +151,12 @@
                 <artifactId>git-build-hook-maven-plugin</artifactId>
                 <version>3.4.1</version>
                 <configuration>
-                    <gitConfig>
-                        <core.hooksPath>hooks</core.hooksPath>
-                        <custom.configuration>true</custom.configuration>
-                    </gitConfig>
+                    <installHooks>
+                        <pre-commit>hooks/pre-commit.sh</pre-commit>
+<!--                        <commit-msg>class_path/package/hook.sh</commit-msg>-->
+                    </installHooks>
                 </configuration>
+
                 <executions>
                     <execution>
                         <goals>
