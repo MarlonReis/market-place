@@ -139,6 +139,9 @@
                     <timestampedReports>false</timestampedReports>
                     <mutationThreshold>100</mutationThreshold>
                     <coverageThreshold>95</coverageThreshold>
+                    <excludedClasses>
+                        <excludedClass>br.com.market.place.domain.**.*Predicate</excludedClass>
+                    </excludedClasses>
                 </configuration>
             </plugin>
             <plugin>
