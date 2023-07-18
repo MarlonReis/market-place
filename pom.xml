@@ -34,12 +34,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Validation -->
-        <dependency>
-            <groupId>am.ik.yavi</groupId>
-            <artifactId>yavi</artifactId>
-            <version>0.9.1</version>
-        </dependency>
         <!-- Tests -->
         <dependency>
             <groupId>org.mockito</groupId>
@@ -94,6 +88,13 @@
             <groupId>org.pitest</groupId>
             <artifactId>pitest-junit5-plugin</artifactId>
             <version>1.2.0</version>
+        </dependency>
+
+        <!-- Validation -->
+        <dependency>
+            <groupId>am.ik.yavi</groupId>
+            <artifactId>yavi</artifactId>
+            <version>0.9.1</version>
         </dependency>
 
         <!-- Database -->
