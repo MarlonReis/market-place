@@ -26,4 +26,10 @@ class NameTest {
         assertThat(exception.getMessage(),Matchers.is("Attribute name is required!"));
     }
 
+    @Test
+    void shouldReturnNullWhenUseDefaultConstructor() {
+        Name name = new Name();
+        assertThat(name.name(), Matchers.nullValue());
+    }
+
 }
