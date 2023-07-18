@@ -5,9 +5,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
 public class InvalidIdException extends RuntimeException{
-	public InvalidIdException(){
-		super();
-	}
 	public InvalidIdException(String message){
 		super(message);
 	}
