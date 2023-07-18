@@ -1,9 +1,10 @@
 package br.com.market.place.domain.customer.value;
 
 import br.com.market.place.domain.shared.exception.InvalidDataException;
+import jakarta.persistence.Embeddable;
 
 import static am.ik.yavi.builder.StringValidatorBuilder.of;
-
+@Embeddable
 public class Email {
 	private String email;
 
