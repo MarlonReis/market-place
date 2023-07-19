@@ -8,7 +8,7 @@ import jakarta.persistence.Embeddable;
 import java.time.LocalDateTime;
 
 @Embeddable
-public class UpdateAt extends DomainDate {
+public final class UpdateAt extends DomainDate {
     public UpdateAt() {
         super();
     }

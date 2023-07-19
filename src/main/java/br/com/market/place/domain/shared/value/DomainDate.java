@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 @MappedSuperclass
-public abstract class DomainDate {
+public sealed abstract class DomainDate permits CreateAt, UpdateAt {
     private LocalDateTime date;
 
     protected DomainDate() {
