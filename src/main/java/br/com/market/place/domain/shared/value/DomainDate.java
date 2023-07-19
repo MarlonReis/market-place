@@ -10,23 +10,23 @@ import java.util.Objects;
 public abstract class DomainDate {
     private LocalDateTime date;
 
-    protected DomainDate(){
+    protected DomainDate() {
         date = LocalDateTime.now();
     }
 
-    public final LocalDateTime date(){
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public final String dateFormatted(){
+    public final String dateFormatted() {
         return date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null) return false;
-        if (o instanceof DomainDate that){
-            return Objects.equals(date,that.date());
+        if (o instanceof DomainDate that) {
+            return Objects.equals(date, that.getDate());
         }
         return false;
     }
