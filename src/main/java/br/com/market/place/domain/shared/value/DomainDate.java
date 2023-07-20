@@ -7,11 +7,15 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 @MappedSuperclass
-public sealed abstract class DomainDate permits CreateAt, UpdateAt {
+public sealed abstract class DomainDate permits DueDate, CreateAt, UpdateAt {
     private LocalDateTime date;
 
     protected DomainDate() {
         date = LocalDateTime.now();
+    }
+
+    protected DomainDate(LocalDateTime date){
+        this.date = date;
     }
 
     public LocalDateTime getDate() {
