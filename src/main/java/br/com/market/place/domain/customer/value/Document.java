@@ -1,6 +1,7 @@
 package br.com.market.place.domain.customer.value;
 
 import am.ik.yavi.core.CustomConstraint;
+import br.com.market.place.domain.customer.constant.DocumentType;
 import br.com.market.place.domain.shared.exception.InvalidDataException;
 import jakarta.persistence.Embeddable;
 
@@ -38,6 +39,7 @@ public class Document {
     public String document() {
         return document;
     }
+
 
     @Override
     public boolean equals(Object o) {

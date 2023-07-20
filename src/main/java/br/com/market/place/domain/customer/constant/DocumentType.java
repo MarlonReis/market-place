@@ -1,4 +1,4 @@
-package br.com.market.place.domain.customer.value;
+package br.com.market.place.domain.customer.constant;
 
 public enum DocumentType {
     CPF,

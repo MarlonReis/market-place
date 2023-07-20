@@ -1,5 +1,6 @@
 package br.com.market.place.domain.customer.value;
 
+import br.com.market.place.domain.customer.constant.DocumentType;
 import br.com.market.place.domain.shared.exception.InvalidDataException;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;

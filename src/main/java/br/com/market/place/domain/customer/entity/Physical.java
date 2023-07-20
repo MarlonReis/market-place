@@ -1,5 +1,6 @@
 package br.com.market.place.domain.customer.entity;
 
+import br.com.market.place.domain.customer.constant.DocumentType;
 import br.com.market.place.domain.customer.value.*;
 import br.com.market.place.domain.shared.value.Address;
 import jakarta.persistence.Entity;

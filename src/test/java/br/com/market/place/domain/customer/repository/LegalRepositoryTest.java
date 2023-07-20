@@ -18,7 +18,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static br.com.market.place.domain.customer.value.DocumentType.CNPJ;
+import static br.com.market.place.domain.customer.constant.DocumentType.CNPJ;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
