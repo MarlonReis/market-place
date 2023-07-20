@@ -5,6 +5,7 @@ import jakarta.persistence.Embeddable;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 import static am.ik.yavi.builder.StringValidatorBuilder.of;
 
@@ -31,5 +32,14 @@ public class BirthDate {
 
     public String dateFormatted() {
         return birthDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) return false;
+        if (o instanceof BirthDate date) {
+            return Objects.equals(birthDate, date.birthDate());
+        }
+        return false;
     }
 }

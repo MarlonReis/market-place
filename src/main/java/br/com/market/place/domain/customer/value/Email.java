@@ -3,6 +3,8 @@ package br.com.market.place.domain.customer.value;
 import br.com.market.place.domain.shared.exception.InvalidDataException;
 import jakarta.persistence.Embeddable;
 
+import java.util.Objects;
+
 import static am.ik.yavi.builder.StringValidatorBuilder.of;
 @Embeddable
 public class Email {
@@ -21,5 +23,14 @@ public class Email {
 
 	public String email() {
 		return this.email;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o == null) return false;
+		if (o instanceof Email that){
+			return Objects.equals(email, that.email());
+		}
+		return false;
 	}
 }

@@ -1,10 +1,13 @@
 package br.com.market.place.domain.customer.value;
 
 import br.com.market.place.domain.shared.exception.InvalidDataException;
+import jakarta.persistence.Embeddable;
+
+import java.util.Objects;
 
 import static am.ik.yavi.builder.StringValidatorBuilder.of;
-
-public class Telephone {
+@Embeddable
+public final class Telephone {
     private String telephone;
 
     protected Telephone() {
@@ -28,4 +31,14 @@ public class Telephone {
         final var phone = telephone.substring(2);
         return String.format("(%s) %s", ddd, phone);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) return false;
+        if (o instanceof Telephone that){
+            return Objects.equals(telephone, that.telephone());
+        }
+        return false;
+    }
+
 }

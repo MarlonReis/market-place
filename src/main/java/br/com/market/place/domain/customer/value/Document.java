@@ -4,7 +4,10 @@ import am.ik.yavi.core.CustomConstraint;
 import br.com.market.place.domain.shared.exception.InvalidDataException;
 import jakarta.persistence.Embeddable;
 
+import java.util.Objects;
+
 import static am.ik.yavi.builder.StringValidatorBuilder.of;
+
 @Embeddable
 public class Document {
     private String document;
@@ -14,7 +17,7 @@ public class Document {
     }
 
     public Document(String document, DocumentType type) {
-        if (document == null || document.isEmpty() || type == null){
+        if (document == null || document.isEmpty() || type == null) {
             throw new InvalidDataException("Attribute document and document type is required!");
         }
 
@@ -34,6 +37,17 @@ public class Document {
 
     public String document() {
         return document;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) return false;
+        if (o instanceof Document that) {
+            return Objects.equals(document, that.document()) &&
+                    Objects.equals(documentType, that.documentType());
+        }
+        return false;
+
     }
 
     private class ValidateDocumentPredicate implements CustomConstraint<String> {
@@ -57,8 +71,8 @@ public class Document {
         public boolean test(String value) {
             if (type == DocumentType.CPF) {
                 return value.matches("(?!.*(\\d)\\1{6,}).{11}$");
-            }else if (type == DocumentType.CNPJ){
-                return value.matches("(?!.*(\\d)\\1{7,}).{14}$");
+            } else if (type == DocumentType.CNPJ) {
+                return value.matches("(?!.*(\\d)\\1{7,}).{14}");
             }
             return value.matches("(?!.*(\\d)\\1{5,}).{9}$");
         }
