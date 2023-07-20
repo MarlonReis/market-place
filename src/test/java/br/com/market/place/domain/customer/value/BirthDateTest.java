@@ -35,8 +35,18 @@ class BirthDateTest {
     }
 
     @Test
-    void shouldReturnNullWhenUseDefaultConstructor(){
-        assertThat(new BirthDate().birthDate(),Matchers.nullValue());
+    void shouldReturnNullWhenUseDefaultConstructor() {
+        assertThat(new BirthDate().birthDate(), Matchers.nullValue());
+    }
+
+    @Test
+    void shouldReturnFalseWhenDateEqualsIsDifferent() {
+        var date = new BirthDate("31/12/1991");
+
+        assertTrue(date.equals(new BirthDate("31/12/1991")));
+        assertFalse(date.equals(new BirthDate("31/12/1992")));
+        assertFalse(date.equals(new Object()));
+        assertFalse(date.equals(null));
     }
 
 }

@@ -5,7 +5,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class AddressTest {
     @Test
@@ -21,18 +21,27 @@ class AddressTest {
     }
 
     @Test
+    void shouldReturnTrueWhenAddressIsEquals() {
+        Address addressOne = new Address("London", "Baker Street", "221", "B", "37540-232");
+        Address addressTwo = new Address("London", "Baker Street", "221", "B", "37540-232");
+
+        assertTrue(addressOne.equals(addressTwo));
+        assertFalse(addressOne.equals(new Address("York", "Baker Street", "221", "B", "37540-232")));
+        assertFalse(addressOne.equals(new Object()));
+        assertFalse(addressOne.equals(null));
+
+    }
+
+    @Test
     void shouldThrowsInvalidDataExceptionWhenReceiveInvalidField() {
         var exception = assertThrows(InvalidDataException.class, () -> new Address(
-                "London",
-                "Baker Street",
-                "221",
-                "",
-                "375423000")
+                "London", "Baker Street", "221", "", "375423000")
         );
-        assertThat(exception.getMessage(),Matchers.is("Attribute component is required!"));
+        assertThat(exception.getMessage(), Matchers.is("Attribute component is required!"));
     }
+
     @Test
-    void shouldReturnNullWhenUseDefaultConstructor(){
+    void shouldReturnNullWhenUseDefaultConstructor() {
         Address address = new Address();
 
         assertThat(address.city(), Matchers.nullValue());

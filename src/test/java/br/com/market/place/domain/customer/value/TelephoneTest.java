@@ -9,7 +9,7 @@ import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 class TelephoneTest {
@@ -34,9 +34,19 @@ class TelephoneTest {
     }
 
     @Test
-    void shouldReturnNullWhenCreateTelephoneWithDefaultConstructor(){
+    void shouldReturnNullWhenCreateTelephoneWithDefaultConstructor() {
         Telephone telephone = new Telephone();
         assertThat(telephone.telephone(), CoreMatchers.nullValue());
+    }
+
+    @Test
+    void shouldReturnFalseWhenTelephoneIsDifferent() {
+        Telephone telephone = new Telephone("35999902345");
+
+        assertTrue(telephone.equals(new Telephone("35999902345")));
+        assertFalse(telephone.equals(new Telephone("35999902340")));
+        assertFalse(telephone.equals(new Object()));
+        assertFalse(telephone.equals(null));
     }
 
 }

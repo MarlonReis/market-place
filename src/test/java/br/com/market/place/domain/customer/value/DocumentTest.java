@@ -4,7 +4,6 @@ import br.com.market.place.domain.shared.exception.InvalidDataException;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -74,6 +73,15 @@ class DocumentTest {
         var document = new Document();
         assertThat(document.documentType(), Matchers.nullValue());
         assertThat(document.document(), Matchers.nullValue());
+    }
+
+    @Test
+    void shouldReturnFalseWhenDocumentIsNotEquals() {
+        Document document = new Document("45.492.691-1", DocumentType.RG);
+
+        assertFalse(document.equals(new Document("211.830.995-33", DocumentType.CPF)));
+        assertFalse(document.equals(new Object()));
+        assertFalse(document.equals(null));
     }
 
 }

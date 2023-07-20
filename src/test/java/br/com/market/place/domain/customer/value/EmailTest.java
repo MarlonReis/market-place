@@ -37,4 +37,13 @@ class EmailTest {
     void shouldReturnNullWhenNotSpecifyArgument() {
         assertThat(new Email().email(), Matchers.nullValue());
     }
+
+    @Test
+    void shouldReturnFalseWhenEmailIsNotEquals() {
+        Email email = new Email("any@email.com");
+
+        assertFalse(email.equals(new Email("any@different.com")));
+        assertFalse(email.equals(new Object()));
+        assertFalse(email.equals(null));
+    }
 }
