@@ -1,4 +1,4 @@
-package br.com.market.place.domain.customer;
+package br.com.market.place.domain.customer.repository;
 
 import br.com.market.place.domain.customer.entity.Legal;
 import br.com.market.place.domain.customer.value.CustomerId;
