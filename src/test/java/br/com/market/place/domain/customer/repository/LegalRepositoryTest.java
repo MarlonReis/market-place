@@ -1,4 +1,4 @@
-package br.com.market.place.domain.customer;
+package br.com.market.place.domain.customer.repository;
 
 import br.com.market.place.domain.customer.entity.Legal;
 import br.com.market.place.domain.customer.value.*;
@@ -6,7 +6,6 @@ import br.com.market.place.domain.shared.value.Address;
 import org.exparity.hamcrest.date.LocalDateTimeMatchers;
 import org.hamcrest.Matchers;
 import org.hibernate.exception.ConstraintViolationException;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -28,14 +26,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class CustomerRepositoryTest {
+class LegalRepositoryTest {
     @Autowired
     private LegalRepository repository;
 
 
     @Test
     void shouldReturnLegalDataWhenSaveWithSuccess() {
-        final var response = repository.save(legalFactory().now());
+        final var response = repository.saveAndFlush(legalFactory().now());
 
         assertThat(response.getId(), Matchers.notNullValue());
         assertThat(response.getName(), Matchers.is(new Name("Josefa e Nicole Pizzaria Delivery LTDA")));
@@ -47,6 +45,7 @@ class CustomerRepositoryTest {
         assertThat(response.getTelephone(), Matchers.is(new Telephone("11999982343")));
         assertThat(response.getAddress(), Matchers.is(new Address("London", "Baker Street", "221", "B", "37540232")));
         assertThat(response.getCreateAt().getDate(), LocalDateTimeMatchers.before(LocalDateTime.now()));
+        assertThat(response.isLegalPerson(), Matchers.is(true));
         assertThat(response.getUpdateAt(), Matchers.nullValue());
     }
 
@@ -66,7 +65,7 @@ class CustomerRepositoryTest {
     @Test
     void shouldReturnLegalDataWhenFoundByLegalDocumentSavedInTheDatabase() {
         Document document = new Document("33747249000114", CNPJ);
-        repository.save(legalFactory().now());
+        repository.saveAndFlush(legalFactory().now());
 
         Optional<Legal> response = repository.findByDocument(document);
         Optional<Legal> responseNotFound = repository.findByDocument(new Document("33747249000115", CNPJ));
@@ -79,7 +78,7 @@ class CustomerRepositoryTest {
     @Test
     void shouldReturnLegalDataWhenFoundByLegalEmailSavedInTheDatabase() {
         Email email = new Email("financeiro@josefaenicolepizzariadeliveryltda.com.br");
-        repository.save(legalFactory().now());
+        repository.saveAndFlush(legalFactory().now());
 
         Optional<Legal> response = repository.findByEmail(email);
         Optional<Legal> responseNotFound = repository.findByEmail(new Email("any@not-found.com.br"));
@@ -91,37 +90,24 @@ class CustomerRepositoryTest {
 
     @Test
     void shouldThrowDataIntegrityViolationExceptionWhenDocumentIsDuplicated() {
-        repository.save(legalFactory().now());
-        repository.save(legalFactory().now());
+        repository.saveAndFlush(legalFactory().now());
 
-        var exception = assertThrows(DataIntegrityViolationException.class, () -> repository.findAll());
+        var exception = assertThrows(DataIntegrityViolationException.class, () -> repository.saveAndFlush(legalFactory().now()));
         var cause = (ConstraintViolationException) exception.getCause();
 
         assertThat(cause.getErrorMessage(), Matchers.containsString("33747249000114"));
-        assertThat(cause.getErrorCode(), Matchers.is(1062));
+        assertThat(cause.getErrorCode(), Matchers.is(23505));
     }
 
     @Test
     void shouldThrowDataIntegrityViolationExceptionWhenEmailIsDuplicated() {
-        repository.save(legalFactory().now());
-        repository.save(Legal.Builder.build()
-                .withName(new Name("Josefa e Nicole Pizzaria Delivery LTDA"))
-                .withFantasyName(new Name("Josefa e Nicole"))
-                .withCNPJ("33.747.246/0001-14")
-                .withMunicipalRegistration("807337772144")
-                .withStateRegistration("807337772144")
-                .withEmail(new Email("financeiro@josefaenicolepizzariadeliveryltda.com.br"))
-                .withTelephone(new Telephone("11999982343"))
-                .withAddress(Address.Builder.build().withCity("London").
-                        withStreet("Baker Street").withNumber("221")
-                        .withComponent("B").withZipCode("37540232").now())
-                .now());
+        repository.saveAndFlush(legalFactory().withCNPJ("33.747.249/0001-16").now());
 
-        var exception = assertThrows(DataIntegrityViolationException.class, () -> repository.findAll());
+        var exception = assertThrows(DataIntegrityViolationException.class, () -> repository.saveAndFlush(legalFactory().now()));
         var cause = (ConstraintViolationException) exception.getCause();
 
         assertThat(cause.getErrorMessage(), Matchers.containsString("financeiro@josefaenicolepizzariadeliveryltda.com.br"));
-        assertThat(cause.getErrorCode(), Matchers.is(1062));
+        assertThat(cause.getErrorCode(), Matchers.is(23505));
     }
 
     private Legal.Builder legalFactory() {
@@ -133,7 +119,9 @@ class CustomerRepositoryTest {
                 .withStateRegistration("807337772144")
                 .withEmail(new Email("financeiro@josefaenicolepizzariadeliveryltda.com.br"))
                 .withTelephone(new Telephone("11999982343"))
-                .withAddress(Address.Builder.build().withCity("London").withStreet("Baker Street").withNumber("221").withComponent("B").withZipCode("37540232").now());
+                .withAddress(Address.Builder.build().withCity("London")
+                        .withStreet("Baker Street").withNumber("221")
+                        .withComponent("B").withZipCode("37540232").now());
     }
 
 }
