@@ -9,6 +9,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.Polymorphism;
 import org.hibernate.annotations.PolymorphismType;
 
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -41,17 +42,17 @@ public abstract class Customer {
     private UpdateAt updateAt;
 
 
-    public Customer() {
+    protected Customer() {
     }
 
     @PrePersist
-    private void prePersist() {
+    protected final void prePersist() {
         this.createAt = new CreateAt();
         this.id = new CustomerId();
     }
 
     @PreUpdate
-    private void preUpdate() {
+    protected final void preUpdate() {
         this.updateAt = new UpdateAt();
     }
 
@@ -113,4 +114,17 @@ public abstract class Customer {
         this.address = address;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (obj instanceof Customer that){
+            return Objects.equals(getId(),that.getId());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
 }
