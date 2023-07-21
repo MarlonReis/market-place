@@ -10,10 +10,8 @@ import br.com.market.place.domain.shared.exception.PaymentException;
 import br.com.market.place.domain.shared.value.Address;
 import br.com.market.place.domain.shared.value.Currency;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "cred_card")
 public class CredCard extends Payment {
     private CardPan cardPan;
 
@@ -22,7 +20,7 @@ public class CredCard extends Payment {
         this.cardPan = cardPan;
     }
 
-    public CredCard() {
+    protected CredCard() {
         super();
     }
 

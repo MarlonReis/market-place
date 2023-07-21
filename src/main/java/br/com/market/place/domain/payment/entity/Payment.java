@@ -1,8 +1,6 @@
 package br.com.market.place.domain.payment.entity;
 
 import br.com.market.place.domain.customer.entity.Customer;
-import br.com.market.place.domain.customer.entity.Physical;
-import br.com.market.place.domain.customer.value.CustomerId;
 import br.com.market.place.domain.payment.constant.PaymentStatus;
 import br.com.market.place.domain.payment.service.CancelPaymentService;
 import br.com.market.place.domain.payment.service.RunPaymentService;
@@ -14,6 +12,8 @@ import br.com.market.place.domain.shared.value.UpdateAt;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Polymorphism;
 import org.hibernate.annotations.PolymorphismType;
+
+import java.util.Objects;
 
 
 @Entity
@@ -52,13 +52,13 @@ public abstract class Payment {
     public abstract void cancelPayment(CancelPaymentService payment);
 
     @PrePersist
-    private void prePersist() {
+    protected final void prePersist() {
         id = new PaymentId();
         createAt = new CreateAt();
     }
 
     @PreUpdate
-    private void preUpdate() {
+    protected final void preUpdate() {
         updateAt = new UpdateAt();
     }
 
@@ -104,5 +104,19 @@ public abstract class Payment {
 
     protected void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (obj instanceof Payment that){
+            return Objects.equals(getId(),that.getId());
+        }
+        return false;
     }
 }
