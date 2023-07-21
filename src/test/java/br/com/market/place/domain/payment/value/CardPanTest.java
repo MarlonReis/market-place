@@ -4,7 +4,6 @@ import br.com.market.place.domain.shared.exception.InvalidDataException;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 
@@ -43,6 +42,12 @@ class CardPanTest {
         assertFalse(cardPan.equals(new Object()));
         assertFalse(cardPan.equals(null));
 
+    }
+
+    @Test
+    void shouldReturnNullWhenCallDefaultConstructor() {
+        CardPan cardPan = new CardPan();
+        assertThat(cardPan.cardPan(), Matchers.nullValue());
     }
 
 

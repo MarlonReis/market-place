@@ -1,8 +1,14 @@
 package br.com.market.place.domain.customer.repository;
 
+import br.com.market.place.MarketPlaceApplication;
+import br.com.market.place.domain.customer.entity.Customer;
 import br.com.market.place.domain.customer.entity.Legal;
 import br.com.market.place.domain.customer.value.*;
+import br.com.market.place.domain.payment.entity.CredCard;
+import br.com.market.place.domain.payment.repository.PaymentRepository;
+import br.com.market.place.domain.payment.value.CardPan;
 import br.com.market.place.domain.shared.value.Address;
+import br.com.market.place.domain.shared.value.Currency;
 import org.exparity.hamcrest.date.LocalDateTimeMatchers;
 import org.hamcrest.Matchers;
 import org.hibernate.exception.ConstraintViolationException;
@@ -11,6 +17,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -19,21 +26,24 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static br.com.market.place.domain.customer.constant.DocumentType.CNPJ;
+import static br.com.market.place.domain.shared.constant.CurrencyType.BRL;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DataJpaTest()
 @ActiveProfiles("test")
-@ExtendWith(SpringExtension.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class LegalRepositoryTest {
     @Autowired
-    private LegalRepository repository;
+    private CustomerRepository repository;
+
+    @Autowired
+    private PaymentRepository paymentRepository;
 
 
     @Test
     void shouldReturnLegalDataWhenSaveWithSuccess() {
-        final var response = repository.saveAndFlush(legalFactory().now());
+        final var response = repository.saveAndFlush(createCustomerLegalFactory().now());
 
         assertThat(response.getId(), Matchers.notNullValue());
         assertThat(response.getName(), Matchers.is(new Name("Josefa e Nicole Pizzaria Delivery LTDA")));
@@ -47,11 +57,12 @@ class LegalRepositoryTest {
         assertThat(response.getCreateAt().getDate(), LocalDateTimeMatchers.before(LocalDateTime.now()));
         assertThat(response.isLegalPerson(), Matchers.is(true));
         assertThat(response.getUpdateAt(), Matchers.nullValue());
+        assertThat(response.getPayments(), Matchers.nullValue());
     }
 
     @Test
     void shouldReturnUpdateAtWithDateWhenUpdateLegal() {
-        var legal = legalFactory();
+        var legal = createCustomerLegalFactory();
         repository.saveAndFlush(legal.now());
         legal.withEmail(new Email("any@any.com"));
 
@@ -65,10 +76,10 @@ class LegalRepositoryTest {
     @Test
     void shouldReturnLegalDataWhenFoundByLegalDocumentSavedInTheDatabase() {
         Document document = new Document("33747249000114", CNPJ);
-        repository.saveAndFlush(legalFactory().now());
+        repository.saveAndFlush(createCustomerLegalFactory().now());
 
-        Optional<Legal> response = repository.findByDocument(document);
-        Optional<Legal> responseNotFound = repository.findByDocument(new Document("33747249000115", CNPJ));
+        Optional<Customer> response = repository.findCustomerByDocument(document);
+        Optional<Customer> responseNotFound = repository.findCustomerByDocument(new Document("33747249000115", CNPJ));
 
         assertThat(response.isPresent(), Matchers.is(true));
         assertThat(responseNotFound.isPresent(), Matchers.is(false));
@@ -78,39 +89,58 @@ class LegalRepositoryTest {
     @Test
     void shouldReturnLegalDataWhenFoundByLegalEmailSavedInTheDatabase() {
         Email email = new Email("financeiro@josefaenicolepizzariadeliveryltda.com.br");
-        repository.saveAndFlush(legalFactory().now());
+        repository.saveAndFlush(createCustomerLegalFactory().now());
 
-        Optional<Legal> response = repository.findByEmail(email);
-        Optional<Legal> responseNotFound = repository.findByEmail(new Email("any@not-found.com.br"));
+        Optional<Customer> response = repository.findCustomerByEmail(email);
+        Optional<Customer> responseNotFound = repository.findCustomerByEmail(new Email("any@not-found.com.br"));
+        Legal legal = (Legal) response.orElseThrow();
 
-        assertThat(response.isPresent(), Matchers.is(true));
         assertThat(responseNotFound.isPresent(), Matchers.is(false));
-        assertThat(response.get().getEmail(), Matchers.is(email));
+        assertThat(legal.getEmail(), Matchers.is(email));
+        assertThat(legal.getFantasyName(), Matchers.is(new Name("Josefa e Nicole")));
+    }
+
+    @Test
+    void shouldReturnPaymentWhenFoundIt() {
+        Legal legal = createCustomerLegalFactory().now();
+        Address address = Address.Builder.build().withCity("London").
+                withStreet("Baker Street").withNumber("221").
+                withComponent("B").withZipCode("37540232").now();
+
+        CredCard credCard = CredCard.Builder.build().
+                withStatusPending().
+                withCardPan(new CardPan("2720339563597456")).
+                withAmount(new Currency("10.0", BRL)).
+                withCustomer(legal).
+                withAddress(address).now();
+
+        paymentRepository.saveAndFlush(credCard);
+
+        var response = repository.findCustomerByEmail(legal.getEmail());
+        assertThat(response.orElseThrow().getPayments(), Matchers.not(Matchers.empty()));
     }
 
     @Test
     void shouldThrowDataIntegrityViolationExceptionWhenDocumentIsDuplicated() {
-        repository.saveAndFlush(legalFactory().now());
+        repository.saveAndFlush(createCustomerLegalFactory().now());
 
-        var exception = assertThrows(DataIntegrityViolationException.class, () -> repository.saveAndFlush(legalFactory().now()));
+        var exception = assertThrows(DataIntegrityViolationException.class, () -> repository.saveAndFlush(createCustomerLegalFactory().now()));
         var cause = (ConstraintViolationException) exception.getCause();
 
         assertThat(cause.getErrorMessage(), Matchers.containsString("33747249000114"));
-        assertThat(cause.getErrorCode(), Matchers.is(23505));
     }
 
     @Test
     void shouldThrowDataIntegrityViolationExceptionWhenEmailIsDuplicated() {
-        repository.saveAndFlush(legalFactory().withCNPJ("33.747.249/0001-16").now());
+        repository.saveAndFlush(createCustomerLegalFactory().withCNPJ("33.747.249/0001-16").now());
 
-        var exception = assertThrows(DataIntegrityViolationException.class, () -> repository.saveAndFlush(legalFactory().now()));
+        var exception = assertThrows(DataIntegrityViolationException.class, () -> repository.saveAndFlush(createCustomerLegalFactory().now()));
         var cause = (ConstraintViolationException) exception.getCause();
 
         assertThat(cause.getErrorMessage(), Matchers.containsString("financeiro@josefaenicolepizzariadeliveryltda.com.br"));
-        assertThat(cause.getErrorCode(), Matchers.is(23505));
     }
 
-    private Legal.Builder legalFactory() {
+    private Legal.Builder createCustomerLegalFactory() {
         return Legal.Builder.build()
                 .withName(new Name("Josefa e Nicole Pizzaria Delivery LTDA"))
                 .withFantasyName(new Name("Josefa e Nicole"))

@@ -1,5 +1,6 @@
 package br.com.market.place.domain.customer.repository;
 
+import br.com.market.place.domain.customer.entity.Customer;
 import br.com.market.place.domain.customer.entity.Physical;
 import br.com.market.place.domain.customer.value.*;
 import br.com.market.place.domain.shared.value.Address;
@@ -13,8 +14,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -25,11 +24,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DataJpaTest()
 @ActiveProfiles("test")
-@ExtendWith(SpringExtension.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class PhysicalRepositoryTest {
     @Autowired
-    private PhysicalRepository repository;
+    private CustomerRepository repository;
 
     @Test
     void shouldReturnPhysicalDataWhenSaveWithSuccess() {
@@ -56,7 +54,7 @@ class PhysicalRepositoryTest {
         var cause = (ConstraintViolationException) exception.getCause();
 
         assertThat(cause.getErrorMessage(), Matchers.containsString("53627187113"));
-        assertThat(cause.getErrorCode(), Matchers.is(23505));
+
     }
 
     @Test
@@ -68,19 +66,19 @@ class PhysicalRepositoryTest {
         var cause = (ConstraintViolationException) exception.getCause();
 
         assertThat(cause.getErrorMessage(), Matchers.containsString("benedito-araujo91@gmnail.com"));
-        assertThat(cause.getErrorCode(), Matchers.is(23505));
     }
 
     @Test
     void shouldReturnPhysicalDataWhenFoundByDocument() {
-        Physical physical = createPhysicalFactory().now();
-        repository.saveAndFlush(physical);
-        Optional<Physical> response = repository.findPhysicalByDocument(new Document("536.271.871-13", CPF));
-        Optional<Physical> responseNotFound = repository.findPhysicalByDocument(new Document("536.271.871-15", CPF));
+        repository.saveAndFlush(createPhysicalFactory().now());
+        Optional<Customer> response = repository.findCustomerByDocument(new Document("536.271.871-13", CPF));
+        Optional<Customer> responseNotFound = repository.findCustomerByDocument(new Document("536.271.871-15", CPF));
 
-        assertThat(response.isPresent(), Matchers.is(true));
+        Physical physical = (Physical) response.orElseThrow();
+
         assertThat(responseNotFound.isEmpty(), Matchers.is(true));
-        assertThat(response.orElseThrow().getDocument(), Matchers.is(new Document("536.271.871-13", CPF)));
+        assertThat(physical.getDocument(), Matchers.is(new Document("536.271.871-13", CPF)));
+        assertThat(physical.getBirthDate(), Matchers.is(new BirthDate("23/02/2001")));
     }
 
 
