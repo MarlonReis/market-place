@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface CredCardPaymentRepository extends JpaRepository<Payment, PaymentId> {
+public interface PaymentRepository extends JpaRepository<Payment, PaymentId> {
 
 }

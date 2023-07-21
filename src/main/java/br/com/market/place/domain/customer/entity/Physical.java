@@ -4,15 +4,8 @@ import br.com.market.place.domain.customer.constant.DocumentType;
 import br.com.market.place.domain.customer.value.*;
 import br.com.market.place.domain.shared.value.Address;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Index;
-import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "physical",
-        indexes = {
-                @Index(columnList = "document", name = "physical_document_index", unique = true),
-                @Index(columnList = "email", name = "physical_email_index", unique = true)
-        })
 public final class Physical extends Customer {
     private BirthDate birthDate;
 

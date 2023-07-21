@@ -1,14 +1,26 @@
 package br.com.market.place.domain.customer.entity;
 
 import br.com.market.place.domain.customer.value.*;
+import br.com.market.place.domain.payment.entity.Payment;
 import br.com.market.place.domain.shared.value.Address;
 import br.com.market.place.domain.shared.value.CreateAt;
 import br.com.market.place.domain.shared.value.UpdateAt;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Polymorphism;
+import org.hibernate.annotations.PolymorphismType;
 
-@MappedSuperclass
-public sealed abstract class Customer permits Physical, Legal {
-    @Id
+import java.util.Set;
+
+
+@Entity
+@Polymorphism(type = PolymorphismType.EXPLICIT)
+@Inheritance(strategy = InheritanceType.JOINED)
+@Table(indexes = {
+        @Index(columnList = "document", name = "document_index", unique = true),
+        @Index(columnList = "email", name = "email_index", unique = true)
+})
+public abstract class Customer {
+    @EmbeddedId
     private CustomerId id;
     private Name name;
     @Column(unique = true)
@@ -17,13 +29,17 @@ public sealed abstract class Customer permits Physical, Legal {
     @Column(unique = true)
     private Document document;
     private Address address;
+
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
+    private Set<Payment> payments;
+
     @Column(updatable = false, nullable = false)
     @AttributeOverrides({@AttributeOverride(name = "date", column = @Column(name = "createAt"))})
     private CreateAt createAt;
 
-
     @AttributeOverrides({@AttributeOverride(name = "date", column = @Column(name = "updateAt"))})
     private UpdateAt updateAt;
+
 
     public Customer() {
     }
@@ -73,24 +89,27 @@ public sealed abstract class Customer permits Physical, Legal {
         return updateAt;
     }
 
+    public Set<Payment> getPayments() {
+        return payments;
+    }
 
-    protected final void setName(Name name) {
+    protected void setName(Name name) {
         this.name = name;
     }
 
-    protected final void setEmail(Email email) {
+    protected void setEmail(Email email) {
         this.email = email;
     }
 
-    protected final void setTelephone(Telephone telephone) {
+    protected void setTelephone(Telephone telephone) {
         this.telephone = telephone;
     }
 
-    protected final void setDocument(Document document) {
+    protected void setDocument(Document document) {
         this.document = document;
     }
 
-    protected final void setAddress(Address address) {
+    protected void setAddress(Address address) {
         this.address = address;
     }
 

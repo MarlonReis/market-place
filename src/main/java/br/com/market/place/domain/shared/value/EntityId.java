@@ -34,7 +34,13 @@ public abstract class EntityId {
 		return false;
 	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
 	public final UUID getId() {
 		return id;
 	}
+
 }

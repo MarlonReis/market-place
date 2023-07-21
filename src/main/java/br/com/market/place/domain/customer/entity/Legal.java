@@ -6,13 +6,7 @@ import br.com.market.place.domain.shared.value.Address;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "legal",
-        indexes = {
-                @Index(columnList = "document", name = "legal_document_index", unique = true),
-                @Index(columnList = "email", name = "legal_email_index", unique = true)
-        })
 public final class Legal extends Customer {
-
     @AttributeOverrides({@AttributeOverride(name = "name", column = @Column(name = "fantasyName"))})
     private Name fantasyName;
     private String municipalRegistration;
