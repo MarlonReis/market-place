@@ -1,0 +1,20 @@
+version: "3.4"
+
+services:
+  database-market-place:
+    image: mysql
+    restart: on-failure
+    environment:
+      MYSQL_ROOT_PASSWORD: P4ssWord
+      MYSQL_DATABASE: MarketPlace
+      MYSQL_USER: adm
+      MYSQL_PASSWORD: AdmP4ssWord
+    ports:
+      - '3306:3306'
+    networks:
+      - cqrs_network
+
+networks:
+  cqrs_network:
+    driver: bridge
+    external: false
