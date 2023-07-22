@@ -17,6 +17,7 @@ class AddressTest {
         assertThat(address.number(), Matchers.is("221"));
         assertThat(address.component(), Matchers.is("B"));
         assertThat(address.zipCode(), Matchers.is("37540232"));
+        assertThat(address.toString(), Matchers.is("Baker Street, 221, B, London, 37540232"));
 
     }
 

@@ -35,6 +35,7 @@ class EntityIdTest {
     void shouldInitializeClassWhenIdIsValid() {
         EntityId entityId = new EntityIdStub("badc8643-e58c-4fa6-83d0-dfa95a28626d");
         assertThat(entityId.getId(), CoreMatchers.notNullValue());
+        assertThat(entityId.toString(), CoreMatchers.is("badc8643-e58c-4fa6-83d0-dfa95a28626d"));
     }
 
     @ParameterizedTest

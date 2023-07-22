@@ -59,6 +59,11 @@ public class Address {
     }
 
     @Override
+    public String toString() {
+        return String.format("%s, %s, %s, %s, %s",street,number,component,city,zipCode);
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (o == null) return false;
         if (o instanceof Address address) {
