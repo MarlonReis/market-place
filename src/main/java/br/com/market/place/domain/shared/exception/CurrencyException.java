@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-public class CurrencyException extends RuntimeException{
+public class CurrencyException extends DomainException{
     public CurrencyException(String message) {
         super(message);
     }
