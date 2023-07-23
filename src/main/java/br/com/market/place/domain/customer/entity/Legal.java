@@ -1,5 +1,7 @@
 package br.com.market.place.domain.customer.entity;
 
+import br.com.market.place.domain.customer.boundary.ReadAddressOutputBoundary;
+import br.com.market.place.domain.customer.boundary.ReadLegalCustomerOutputBoundary;
 import br.com.market.place.domain.customer.constant.DocumentType;
 import br.com.market.place.domain.customer.value.*;
 import br.com.market.place.domain.shared.value.Address;
@@ -11,6 +13,22 @@ public final class Legal extends Customer {
     private Name fantasyName;
     private String municipalRegistration;
     private String stateRegistration;
+
+
+    @Override
+    public void setAddress(Address address) {
+        super.setAddress(address);
+    }
+
+    @Override
+    public void setEmail(Email email) {
+        super.setEmail(email);
+    }
+
+    @Override
+    public void setTelephone(Telephone telephone) {
+        super.setTelephone(telephone);
+    }
 
     @Override
     public boolean isLegalPerson() {
@@ -39,6 +57,18 @@ public final class Legal extends Customer {
 
     private void setStateRegistration(String stateRegistration) {
         this.stateRegistration = stateRegistration;
+    }
+
+    public ReadLegalCustomerOutputBoundary toReadLegalCustomerOutputBoundary() {
+        return new ReadLegalCustomerOutputBoundary(
+                getId().toString(),
+                getName().name(),
+                getTelephone().telephoneFormatted(),
+                getDocument().document(),
+                getFantasyName().name(),
+                getMunicipalRegistration(),
+                getStateRegistration(),
+                new ReadAddressOutputBoundary(getAddress().toString()));
     }
 
     public static final class Builder {
