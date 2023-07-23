@@ -1,6 +1,5 @@
 package br.com.market.place.domain.customer.repository;
 
-import br.com.market.place.MarketPlaceApplication;
 import br.com.market.place.domain.customer.entity.Customer;
 import br.com.market.place.domain.customer.entity.Legal;
 import br.com.market.place.domain.customer.value.*;
@@ -13,14 +12,11 @@ import org.exparity.hamcrest.date.LocalDateTimeMatchers;
 import org.hamcrest.Matchers;
 import org.hibernate.exception.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
