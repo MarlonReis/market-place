@@ -6,6 +6,7 @@ import br.com.market.place.domain.customer.constant.DocumentType;
 import br.com.market.place.domain.customer.value.*;
 import br.com.market.place.domain.shared.value.Address;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public final class Legal extends Customer {
@@ -15,19 +16,24 @@ public final class Legal extends Customer {
     private String stateRegistration;
 
 
-    @Override
-    public void setAddress(Address address) {
-        super.setAddress(address);
+    public void changeAddress(@NotNull Address address) {
+        super.setAddress(new Address(
+                address.city(),
+                address.street(),
+                address.number(),
+                address.component(),
+                address.zipCode()
+        ));
     }
 
-    @Override
-    public void setEmail(Email email) {
-        super.setEmail(email);
+
+    public void changeEmail(String email) {
+        super.setEmail(new Email(email));
     }
 
-    @Override
-    public void setTelephone(Telephone telephone) {
-        super.setTelephone(telephone);
+
+    public void changeTelephone(String telephone) {
+        super.setTelephone(new Telephone(telephone));
     }
 
     @Override

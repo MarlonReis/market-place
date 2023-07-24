@@ -17,7 +17,6 @@ import br.com.market.place.domain.shared.exception.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.NestedRuntimeException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -51,9 +50,9 @@ public class LegalService implements LegalCustomerService {
 
         response.ifPresent(legal -> {
             logger.info("Update legal customer with document equals {}", legal.getId().getId());
-            legal.setEmail(new Email(data.email()));
-            legal.setAddress(data.address().toAddress());
-            legal.setTelephone(new Telephone(data.telephone()));
+            legal.changeEmail(data.email());
+            legal.changeAddress(data.address().toAddress());
+            legal.changeTelephone(data.telephone());
             repository.saveAndFlush(legal);
         });
 
