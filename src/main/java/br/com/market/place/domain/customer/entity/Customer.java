@@ -2,10 +2,12 @@ package br.com.market.place.domain.customer.entity;
 
 import br.com.market.place.domain.customer.value.*;
 import br.com.market.place.domain.payment.entity.Payment;
+import br.com.market.place.domain.shared.exception.InvalidDataException;
 import br.com.market.place.domain.shared.value.Address;
 import br.com.market.place.domain.shared.value.CreateAt;
 import br.com.market.place.domain.shared.value.UpdateAt;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.Polymorphism;
 import org.hibernate.annotations.PolymorphismType;
 
@@ -21,7 +23,7 @@ import java.util.Set;
         @Index(columnList = "email", name = "email_index", unique = true)
 })
 public abstract class Customer {
-    @EmbeddedId
+    @Id
     private CustomerId id;
     private Name name;
     @Column(unique = true)
@@ -54,6 +56,23 @@ public abstract class Customer {
     @PreUpdate
     protected final void preUpdate() {
         this.updateAt = new UpdateAt();
+    }
+
+    public final void changeAddress(@NotNull Address address) {
+        if (address == null) {
+            throw new InvalidDataException("Attribute address is required!");
+        }
+        setAddress(address);
+    }
+
+
+    public final void changeEmail(String email) {
+        setEmail(new Email(email));
+    }
+
+
+    public final void changeTelephone(String telephone) {
+        setTelephone(new Telephone(telephone));
     }
 
     public abstract boolean isLegalPerson();
@@ -117,8 +136,8 @@ public abstract class Customer {
     @Override
     public boolean equals(Object obj) {
         if (obj == null) return false;
-        if (obj instanceof Customer that){
-            return Objects.equals(getId(),that.getId());
+        if (obj instanceof Customer that) {
+            return Objects.equals(getId(), that.getId());
         }
         return false;
     }

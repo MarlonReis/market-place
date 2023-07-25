@@ -1,8 +1,8 @@
 package br.com.market.place.domain.customer.service;
 
-import br.com.market.place.domain.customer.boundary.CreateLegalInputBoundary;
-import br.com.market.place.domain.customer.boundary.ReadLegalCustomerOutputBoundary;
-import br.com.market.place.domain.customer.boundary.UpdateLegalInputBoundary;
+import br.com.market.place.domain.customer.boundary.legal.CreateLegalInputBoundary;
+import br.com.market.place.domain.customer.boundary.legal.ReadLegalCustomerOutputBoundary;
+import br.com.market.place.domain.customer.boundary.legal.UpdateLegalInputBoundary;
 
 public interface LegalCustomerService {
     void createLegal(CreateLegalInputBoundary data);

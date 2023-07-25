@@ -5,5 +5,10 @@ import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class CustomerId extends EntityId {
-
+    public CustomerId(){
+        super();
+    }
+    public CustomerId(String id){
+        super(id);
+    }
 }

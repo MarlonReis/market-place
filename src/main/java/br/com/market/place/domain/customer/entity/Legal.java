@@ -1,12 +1,12 @@
 package br.com.market.place.domain.customer.entity;
 
 import br.com.market.place.domain.customer.boundary.ReadAddressOutputBoundary;
-import br.com.market.place.domain.customer.boundary.ReadLegalCustomerOutputBoundary;
+import br.com.market.place.domain.customer.boundary.legal.ReadLegalCustomerOutputBoundary;
 import br.com.market.place.domain.customer.constant.DocumentType;
 import br.com.market.place.domain.customer.value.*;
 import br.com.market.place.domain.shared.value.Address;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+
 
 @Entity
 public final class Legal extends Customer {
@@ -15,26 +15,6 @@ public final class Legal extends Customer {
     private String municipalRegistration;
     private String stateRegistration;
 
-
-    public void changeAddress(@NotNull Address address) {
-        super.setAddress(new Address(
-                address.city(),
-                address.street(),
-                address.number(),
-                address.component(),
-                address.zipCode()
-        ));
-    }
-
-
-    public void changeEmail(String email) {
-        super.setEmail(new Email(email));
-    }
-
-
-    public void changeTelephone(String telephone) {
-        super.setTelephone(new Telephone(telephone));
-    }
 
     @Override
     public boolean isLegalPerson() {

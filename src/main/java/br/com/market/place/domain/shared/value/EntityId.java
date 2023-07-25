@@ -40,7 +40,7 @@ public abstract class EntityId {
     }
 
     public final UUID getId() {
-        return id;
+        return this.id;
     }
 
     @Override

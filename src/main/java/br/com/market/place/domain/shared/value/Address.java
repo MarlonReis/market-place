@@ -19,6 +19,7 @@ public class Address {
     protected Address() {
     }
 
+
     public Address(String city, String street, String number, String component, String zipCode) {
         var cityVal = of("city", s -> s.notBlank().message("Attribute city is required!")).build().validate(city);
         var streetVal = of("street", s -> s.notBlank().message("Attribute street is required!")).build()
@@ -60,7 +61,7 @@ public class Address {
 
     @Override
     public String toString() {
-        return String.format("%s, %s, %s, %s, %s",street,number,component,city,zipCode);
+        return String.format("%s, %s, %s, %s, %s", street, number, component, city, zipCode);
     }
 
     @Override

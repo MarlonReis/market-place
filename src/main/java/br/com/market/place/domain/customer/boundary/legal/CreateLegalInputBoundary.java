@@ -1,5 +1,6 @@
-package br.com.market.place.domain.customer.boundary;
+package br.com.market.place.domain.customer.boundary.legal;
 
+import br.com.market.place.domain.customer.boundary.AddressInputBoundary;
 import br.com.market.place.domain.customer.entity.Legal;
 import br.com.market.place.domain.customer.value.Email;
 import br.com.market.place.domain.customer.value.Name;
