@@ -1,8 +1,8 @@
 package br.com.market.place.infrastructure.service;
 
 import br.com.market.place.domain.customer.boundary.AddressInputBoundary;
-import br.com.market.place.domain.customer.boundary.CreateLegalInputBoundary;
-import br.com.market.place.domain.customer.boundary.UpdateLegalInputBoundary;
+import br.com.market.place.domain.customer.boundary.legal.CreateLegalInputBoundary;
+import br.com.market.place.domain.customer.boundary.legal.UpdateLegalInputBoundary;
 import br.com.market.place.domain.customer.entity.Legal;
 import br.com.market.place.domain.customer.repository.CustomerRepository;
 import br.com.market.place.domain.customer.service.LegalCustomerService;
@@ -18,7 +18,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
