@@ -1,17 +1,14 @@
 package br.com.market.place.infrastructure.service;
 
-import br.com.market.place.domain.customer.boundary.CreateLegalInputBoundary;
-import br.com.market.place.domain.customer.boundary.ReadAddressOutputBoundary;
-import br.com.market.place.domain.customer.boundary.ReadLegalCustomerOutputBoundary;
-import br.com.market.place.domain.customer.boundary.UpdateLegalInputBoundary;
+import br.com.market.place.domain.customer.boundary.legal.CreateLegalInputBoundary;
+import br.com.market.place.domain.customer.boundary.legal.ReadLegalCustomerOutputBoundary;
+import br.com.market.place.domain.customer.boundary.legal.UpdateLegalInputBoundary;
 import br.com.market.place.domain.customer.constant.DocumentType;
-import br.com.market.place.domain.customer.entity.Customer;
 import br.com.market.place.domain.customer.entity.Legal;
 import br.com.market.place.domain.customer.repository.CustomerRepository;
 import br.com.market.place.domain.customer.service.LegalCustomerService;
 import br.com.market.place.domain.customer.value.Document;
 import br.com.market.place.domain.customer.value.Email;
-import br.com.market.place.domain.customer.value.Telephone;
 import br.com.market.place.domain.shared.exception.CreateException;
 import br.com.market.place.domain.shared.exception.NotFoundException;
 import org.slf4j.Logger;
