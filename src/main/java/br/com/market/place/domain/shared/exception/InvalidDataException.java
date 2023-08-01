@@ -10,11 +10,11 @@ import java.util.stream.Collectors;
 @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
 public class InvalidDataException extends DomainException {
     public InvalidDataException(String message) {
-        super(message);
+        super(message, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     public InvalidDataException(List<ConstraintViolation> va) {
         super(va.stream().map(ConstraintViolation::message)
-                .collect(Collectors.joining(", ")));
+                .collect(Collectors.joining(", ")), HttpStatus.UNPROCESSABLE_ENTITY);
     }
 }

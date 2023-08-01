@@ -1,0 +1,46 @@
+### CREATE PHYSICAL CUSTOMER
+POST http://localhost:8080/v1/api/physical
+Content-Type: application/json
+
+{
+  "name": "Marlon Reis",
+  "email": "marlon-reis@email.com",
+  "telephone": "35999902135",
+  "document": "41953736033",
+  "documentType": "CPF",
+  "birthDate": "31/12/1991",
+  "address": {
+    "city": "Santa Rita do Sapucai",
+    "street": "Joaquim Teles de Souza",
+    "number": "80",
+    "component": "APT 102",
+    "zipCode": "37540000"
+  }
+}
+
+### UPDATE PHYSICAL CUSTOMER
+PUT http://localhost:8080/v1/api/physical
+Content-Type: application/json
+
+{
+  "customerId": "fc7ed378-181b-4393-b2c5-68e38ca0659a",
+  "email": "exemple@email.com",
+  "telephone": "34999902135",
+  "address": {
+    "city": "Rio de Janeiro",
+    "street": "Joaquim Teles de Souza",
+    "number": "80",
+    "component": "APT 102",
+    "zipCode": "37540000"
+  }
+}
+
+### GET FIND PHYSICAL CUSTOMER BY DOCUMENT
+GET http://localhost:8080/v1/api/physical/document/41953736033/CPF
+Content-Type: application/json
+Accept: application/json
+
+### GET FIND PHYSICAL CUSTOMER BY EMAIL
+GET http://localhost:8080/v1/api/physical/marlon-reis@email.com
+Content-Type: application/json
+Accept: application/json

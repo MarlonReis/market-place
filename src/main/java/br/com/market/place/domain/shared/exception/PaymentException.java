@@ -6,6 +6,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
 public class PaymentException  extends DomainException{
     public PaymentException(String message) {
-        super(message);
+        super(message,HttpStatus.UNPROCESSABLE_ENTITY);
     }
 }
