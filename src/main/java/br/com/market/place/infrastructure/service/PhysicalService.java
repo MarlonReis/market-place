@@ -1,6 +1,5 @@
 package br.com.market.place.infrastructure.service;
 
-import br.com.market.place.domain.customer.boundary.ReadAddressOutputBoundary;
 import br.com.market.place.domain.customer.boundary.physical.CreatePhysicalInputBoundary;
 import br.com.market.place.domain.customer.boundary.physical.ReadPhysicalOutputBoundary;
 import br.com.market.place.domain.customer.boundary.physical.UpdatePhysicalInputBoundary;
@@ -57,7 +56,7 @@ public class PhysicalService implements PhysicalCustomerService {
             logger.error("Error when update physical customer by id {}, error: {}", data.customerId(), ex.getMessage());
             throw new UpdateException("Cannot update physical customer!");
         }
-        if (response.isEmpty()) throw new UpdateException("Cannot found customer by id");
+        if (response.isEmpty()) throw new NotFoundException("Cannot found customer by id!");
     }
 
     @Override
