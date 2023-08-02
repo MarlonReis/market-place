@@ -57,7 +57,7 @@ class LegalServiceTest {
     void shouldCreateLegalCustomerWithSuccess() {
         ArgumentCaptor<Legal> argumentCaptor = ArgumentCaptor.forClass(Legal.class);
 
-        service.createLegal(inputData);
+        service.create(inputData);
 
         Mockito.verify(repository).saveAndFlush(argumentCaptor.capture());
         Legal legal = argumentCaptor.getValue();
@@ -69,19 +69,19 @@ class LegalServiceTest {
 
     @Test
     void shouldThrowCreateExceptionWhenDocumentOrEmailAreDuplicated() {
-        service.createLegal(inputData);
-        DomainException exception = assertThrows(CreateException.class, () -> service.createLegal(inputData));
+        service.create(inputData);
+        DomainException exception = assertThrows(CreateException.class, () -> service.create(inputData));
         assertThat(exception.getMessage(), Matchers.is("E-mail or document need to be unique!"));
     }
 
     @Test
     void shouldUpdateLegalDataWithSuccess() {
         var address = new AddressInputBoundary("Any City", "Any Street", "80", "APT 102", "37540000");
-        service.createLegal(inputData);
+        service.create(inputData);
 
         ArgumentCaptor<Legal> argumentCaptor = ArgumentCaptor.forClass(Legal.class);
         var data = new UpdateLegalInputBoundary("3499003234", "37.680.915/0001-03", "new-email@faka.com", address);
-        service.updateLegal(data);
+        service.update(data);
 
         Mockito.verify(repository, Mockito.atLeastOnce()).saveAndFlush(argumentCaptor.capture());
         Legal legal = argumentCaptor.getValue();
@@ -99,7 +99,7 @@ class LegalServiceTest {
         var address = new AddressInputBoundary("Any City", "Any Street", "80", "APT 102", "37540000");
         var data = new UpdateLegalInputBoundary("3499003234", "37.680.915/0001-03", "new-email@faka.com", address);
 
-        var exception = assertThrows(NotFoundException.class, () -> service.updateLegal(data));
+        var exception = assertThrows(NotFoundException.class, () -> service.update(data));
         assertThat(exception.getMessage(), Matchers.is("Customer not found by CNPJ!"));
 
         Mockito.verify(repository, Mockito.never()).saveAndFlush(ArgumentMatchers.any());
@@ -107,7 +107,7 @@ class LegalServiceTest {
 
     @Test
     void shouldReturnLegalCustomerWhenFoundByDocument() {
-        service.createLegal(inputData);
+        service.create(inputData);
         var response = service.findLegalCustomerByCNPJ("37.680.915/0001-03");
 
         assertThat(response.customerId(), Matchers.notNullValue());
@@ -122,7 +122,7 @@ class LegalServiceTest {
 
     @Test
     void shouldReturnLegalCustomerWhenFoundByEmail() {
-        service.createLegal(inputData);
+        service.create(inputData);
         var response = service.findLegalCustomerByEmail("any@email.com");
 
         assertThat(response.customerId(), Matchers.notNullValue());

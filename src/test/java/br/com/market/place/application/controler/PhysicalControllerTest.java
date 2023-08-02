@@ -57,7 +57,7 @@ class PhysicalControllerTest {
 
     @Test
     void shouldReturnStatusCode201WhenCreatePhysicalWithSuccess() throws Exception {
-        mockMvc.perform(post("/v1/api/physical")
+        mockMvc.perform(post("/v1/api/customer/physical")
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
                         .content("""
@@ -82,7 +82,7 @@ class PhysicalControllerTest {
 
     @Test
     void shouldReturnStatusCode422WhenTelephoneIsInvalid() throws Exception {
-        mockMvc.perform(post("/v1/api/physical")
+        mockMvc.perform(post("/v1/api/customer/physical")
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
                         .content("""
@@ -111,7 +111,7 @@ class PhysicalControllerTest {
     @Test
     void shouldReturnStatusCode200WhenUpdatePhysicalWithSuccess() throws Exception {
         Customer response = repository.save(physical);
-        mockMvc.perform(put("/v1/api/physical")
+        mockMvc.perform(put("/v1/api/customer/physical")
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
                         .content("""
@@ -133,7 +133,7 @@ class PhysicalControllerTest {
 
     @Test
     void shouldReturnStatusCode202WhenNotFoundCustomerToUpdate() throws Exception {
-        mockMvc.perform(put("/v1/api/physical")
+        mockMvc.perform(put("/v1/api/customer/physical")
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
                         .content("""
@@ -159,7 +159,7 @@ class PhysicalControllerTest {
     @Test
     void shouldReturnStatusCode200WhenFoundPhysicalByDocument() throws Exception {
         var response = repository.save(physical);
-        mockMvc.perform(get("/v1/api/physical/document/{document}/{type}", "53627187113", "CPF")
+        mockMvc.perform(get("/v1/api/customer/physical/document/{document}/{type}", "53627187113", "CPF")
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON))
                 .andExpect(status().isOk()).
@@ -171,7 +171,7 @@ class PhysicalControllerTest {
 
     @Test
     void shouldReturnStatusCode202WhenNotFoundFoundPhysicalByDocument() throws Exception {
-        mockMvc.perform(get("/v1/api/physical/document/{document}/{type}", "53627187113", "CPF")
+        mockMvc.perform(get("/v1/api/customer/physical/document/{document}/{type}", "53627187113", "CPF")
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON))
                 .andExpect(status().isNoContent()).
@@ -183,7 +183,7 @@ class PhysicalControllerTest {
     @Test
     void shouldReturnStatusCode200WhenFoundPhysicalByEmail() throws Exception {
         var response = repository.save(physical);
-        mockMvc.perform(get("/v1/api/physical/{email}", "benedito-araujo91@gmnail.com")
+        mockMvc.perform(get("/v1/api/customer/physical/{email}", "benedito-araujo91@gmnail.com")
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON))
                 .andExpect(status().isOk()).
@@ -195,7 +195,7 @@ class PhysicalControllerTest {
 
     @Test
     void shouldReturnStatusCode202WhenNotFoundFoundPhysicalByEmail() throws Exception {
-        mockMvc.perform(get("/v1/api/physical/{email}", "benedito-araujo91@gmnail.com")
+        mockMvc.perform(get("/v1/api/customer/physical/{email}", "benedito-araujo91@gmnail.com")
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON))
                 .andExpect(status().isNoContent()).

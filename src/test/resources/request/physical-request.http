@@ -1,5 +1,5 @@
 ### CREATE PHYSICAL CUSTOMER
-POST http://localhost:8080/v1/api/physical
+POST http://localhost:8080/v1/api/customer/physical
 Content-Type: application/json
 
 {
@@ -19,7 +19,7 @@ Content-Type: application/json
 }
 
 ### UPDATE PHYSICAL CUSTOMER
-PUT http://localhost:8080/v1/api/physical
+PUT http://localhost:8080/v1/api/customer/physical
 Content-Type: application/json
 
 {
@@ -36,11 +36,11 @@ Content-Type: application/json
 }
 
 ### GET FIND PHYSICAL CUSTOMER BY DOCUMENT
-GET http://localhost:8080/v1/api/physical/document/41953736033/CPF
+GET http://localhost:8080/v1/api/customer/physical/document/41953736033/CPF
 Content-Type: application/json
 Accept: application/json
 
 ### GET FIND PHYSICAL CUSTOMER BY EMAIL
-GET http://localhost:8080/v1/api/physical/marlon-reis@email.com
+GET http://localhost:8080/v1/api/customer/physical/marlon-reis@email.com
 Content-Type: application/json
 Accept: application/json

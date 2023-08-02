@@ -1,0 +1,21 @@
+### CREATE LEGAL CUSTOMER
+POST http://localhost:8080/v1/api/customer/legal
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Alana e Guilherme",
+  "telephone": "1138384351",
+  "email": "qualidade@alanaeguilhermeconstrucoesltda.com.br",
+  "cnpj": "77111888000164",
+  "fantasyName": "Alana e Guilherme Construções Ltda",
+  "municipalRegistration": "1512994",
+  "stateRegistration": "151299495372",
+  "address": {
+    "city": "Santa Rita do Sapucai",
+    "street": "Joaquim Teles de Souza",
+    "number": "80",
+    "component": "APT 102",
+    "zipCode": "37540000"
+  }
+}
