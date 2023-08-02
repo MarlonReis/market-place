@@ -5,8 +5,8 @@ import br.com.market.place.domain.customer.boundary.legal.ReadLegalCustomerOutpu
 import br.com.market.place.domain.customer.boundary.legal.UpdateLegalInputBoundary;
 
 public interface LegalCustomerService {
-    void createLegal(CreateLegalInputBoundary data);
-    void updateLegal(UpdateLegalInputBoundary data);
+    void create(CreateLegalInputBoundary data);
+    void update(UpdateLegalInputBoundary data);
     ReadLegalCustomerOutputBoundary findLegalCustomerByCNPJ(String cnpj);
     ReadLegalCustomerOutputBoundary findLegalCustomerByEmail(String email);
 }

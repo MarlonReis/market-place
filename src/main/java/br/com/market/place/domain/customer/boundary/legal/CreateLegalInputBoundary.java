@@ -5,7 +5,6 @@ import br.com.market.place.domain.customer.entity.Legal;
 import br.com.market.place.domain.customer.value.Email;
 import br.com.market.place.domain.customer.value.Name;
 import br.com.market.place.domain.customer.value.Telephone;
-import br.com.market.place.domain.shared.value.Address;
 
 public record CreateLegalInputBoundary(
         String name,

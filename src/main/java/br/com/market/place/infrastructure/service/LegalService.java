@@ -30,7 +30,7 @@ public class LegalService implements LegalCustomerService {
     }
 
     @Override
-    public void createLegal(CreateLegalInputBoundary data) {
+    public void create(CreateLegalInputBoundary data) {
         try {
             repository.saveAndFlush(data.toEntity());
             logger.info("Create a new legal customer!");
@@ -41,7 +41,7 @@ public class LegalService implements LegalCustomerService {
     }
 
     @Override
-    public void updateLegal(UpdateLegalInputBoundary data) {
+    public void update(UpdateLegalInputBoundary data) {
         Optional<Legal> response = repository.findCustomerByDocument(new Document(data.cnpj(), DocumentType.CNPJ))
                 .map(customer -> (Legal) customer);
 

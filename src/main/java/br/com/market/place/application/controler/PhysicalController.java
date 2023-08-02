@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/v1/api/physical")
+@RequestMapping("/v1/api/customer/physical")
 public class PhysicalController {
     private final PhysicalService service;
 
