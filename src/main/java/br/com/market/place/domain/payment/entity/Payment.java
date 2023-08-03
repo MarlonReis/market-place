@@ -106,10 +106,6 @@ public abstract class Payment {
         this.customer = customer;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId());
-    }
 
     @Override
     public boolean equals(Object obj) {

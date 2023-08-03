@@ -141,9 +141,4 @@ public abstract class Customer {
         }
         return false;
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId());
-    }
 }

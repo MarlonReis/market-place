@@ -21,7 +21,7 @@ class CardPanTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"", "5487689140058724", "548768914005", "548760058724", "00876891400587241"})
+    @ValueSource(strings = {"", "0087689140058724", "008768914005", "548760058724", "00876891400587241"})
     void shouldReturnThrowsInvalidDataExceptionWhenCardNumberIsInvalid(String value) {
         var exception = assertThrows(InvalidDataException.class, () -> new CardPan(value));
         assertThat(exception.getMessage(), Matchers.is("Attribute cardNumber is invalid!"));

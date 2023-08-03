@@ -39,18 +39,14 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-log4j2</artifactId>
         </dependency>
+
+        <!-- Tests -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
-        </dependency>
 
-
-        <!-- Tests -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-inline</artifactId>
@@ -127,9 +123,14 @@
 
         <!-- Validation -->
         <dependency>
-            <groupId>am.ik.yavi</groupId>
-            <artifactId>yavi</artifactId>
-            <version>0.9.1</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sf.oval</groupId>
+            <artifactId>oval</artifactId>
+            <version>3.2.1</version>
         </dependency>
 
         <!-- Database -->
@@ -174,10 +175,7 @@
                     <timestampedReports>false</timestampedReports>
                     <mutationThreshold>100</mutationThreshold>
                     <coverageThreshold>95</coverageThreshold>
-                    <threads>8</threads>
-                    <excludedClasses>
-                        <excludedClass>br.com.market.place.domain.**.*Predicate</excludedClass>
-                    </excludedClasses>
+                    <threads>4</threads>
                     <excludedMethods>
                         <method>hashCode</method>
                         <excludedMethod>hashCode</excludedMethod>

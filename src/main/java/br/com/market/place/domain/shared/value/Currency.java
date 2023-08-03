@@ -9,24 +9,19 @@ import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.Objects;
 
-import static am.ik.yavi.builder.StringValidatorBuilder.of;
-
-import am.ik.yavi.builder.ObjectValidatorBuilder;
-
 @Embeddable
 public class Currency {
     private BigDecimal amount;
     private CurrencyType currencyType;
 
     public Currency(String amount, CurrencyType type) {
-        var amountVal = of("amount", s -> s
-                .notEmpty().message("Attribute amount is required!")
-                .isBigDecimal().message("Attribute amount is invalid!")
-        ).build().validate(amount);
-
+        if (amount == null) throw new InvalidDataException("Attribute amount is required!");
         if (type == null) throw new InvalidDataException("Attribute currencyType is required!");
 
-        this.amount = new BigDecimal(amountVal.orElseThrow(InvalidDataException::new));
+        if (!amount.matches("^[\\d|.]+")) {
+            throw new InvalidDataException("Attribute amount is invalid!");
+        }
+        this.amount = new BigDecimal(amount);
         this.currencyType = type;
     }
 

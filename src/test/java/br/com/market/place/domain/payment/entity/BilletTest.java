@@ -1,6 +1,4 @@
 package br.com.market.place.domain.payment.entity;
-
-import br.com.market.place.domain.customer.entity.Customer;
 import br.com.market.place.domain.customer.entity.Physical;
 import br.com.market.place.domain.customer.value.BirthDate;
 import br.com.market.place.domain.payment.constant.PaymentStatus;
@@ -108,6 +106,7 @@ class BilletTest {
         assertFalse(billet.equals(Billet.Builder.build().now()));
         assertFalse(billet.equals(new Object()));
         assertFalse(billet.equals(null));
+
     }
 
     @Test

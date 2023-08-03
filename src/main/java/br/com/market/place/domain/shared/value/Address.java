@@ -1,19 +1,32 @@
 package br.com.market.place.domain.shared.value;
 
-import br.com.market.place.domain.shared.exception.InvalidDataException;
+import br.com.market.place.domain.shared.valodator.ValueObjectValidator;
 import jakarta.persistence.Embeddable;
+import net.sf.oval.constraint.Digits;
+import net.sf.oval.constraint.MatchPattern;
+import net.sf.oval.constraint.NotEmpty;
+import net.sf.oval.constraint.NotNull;
 
 import java.util.Objects;
 
-import static am.ik.yavi.builder.StringValidatorBuilder.of;
 
 @Embeddable
 public class Address {
-
+    @NotEmpty(message = "Attribute city is required!")
+    @NotNull(message = "Attribute city is required!")
     private String city;
+    @NotNull(message = "Attribute street is required!")
+    @NotEmpty(message = "Attribute street is required!")
     private String street;
+    @NotNull(message = "Attribute number is required!")
+    @Digits(message = "Attribute number is invalid!")
     private String number;
+    @NotNull(message = "Attribute component is required!")
+    @NotEmpty(message = "Attribute component is required!")
     private String component;
+
+    @NotNull(message = "Attribute zipCode is required!")
+    @MatchPattern(pattern = "((\\d{5})(?:[-]|)(\\d{3}))", message = "Attribute zipCode is invalid!")
     private String zipCode;
 
     protected Address() {
@@ -21,22 +34,12 @@ public class Address {
 
 
     public Address(String city, String street, String number, String component, String zipCode) {
-        var cityVal = of("city", s -> s.notBlank().message("Attribute city is required!")).build().validate(city);
-        var streetVal = of("street", s -> s.notBlank().message("Attribute street is required!")).build()
-                .validate(street);
-        var numberVal = of("number", s -> s.notBlank().message("Attribute number is required!").pattern("\\d+")
-                .message("Attribute number is invalid!")).build().validate(number);
-        var componentVal = of("component", s -> s.notBlank().message("Attribute component is required!")).build().validate(component);
-        var zipCodeVal = of("zipCode", s -> s.notBlank().message("Attribute zipCode is required!")
-                .pattern("((\\d{5})(?:[-]|)(\\d{3}))").message("Attribute zipCode is invalid!")
-        ).build().validate(zipCode);
-
-        this.city = cityVal.orElseThrow(InvalidDataException::new);
-        this.street = streetVal.orElseThrow(InvalidDataException::new);
-        this.number = numberVal.orElseThrow(InvalidDataException::new);
-        this.component = componentVal.orElseThrow(InvalidDataException::new);
-        this.zipCode = zipCodeVal.orElseThrow(InvalidDataException::new)
-                .replace("-", "");
+        this.city = city;
+        this.street = street;
+        this.number = number;
+        this.component = component;
+        this.zipCode = zipCode == null ? null : zipCode.replaceAll("-", "");
+        new ValueObjectValidator().validate(this);
     }
 
     public String city() {

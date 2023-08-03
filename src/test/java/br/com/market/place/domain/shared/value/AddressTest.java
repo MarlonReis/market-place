@@ -36,7 +36,7 @@ class AddressTest {
     @Test
     void shouldThrowsInvalidDataExceptionWhenReceiveInvalidField() {
         var exception = assertThrows(InvalidDataException.class, () -> new Address(
-                "London", "Baker Street", "221", "", "375423000")
+                "London", "Baker Street", "221", "", "37540000")
         );
         assertThat(exception.getMessage(), Matchers.is("Attribute component is required!"));
     }

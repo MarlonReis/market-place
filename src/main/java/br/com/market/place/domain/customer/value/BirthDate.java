@@ -7,8 +7,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
-import static am.ik.yavi.builder.StringValidatorBuilder.of;
-
 @Embeddable
 public class BirthDate {
     private LocalDate birthDate;
@@ -17,13 +15,13 @@ public class BirthDate {
     }
 
     public BirthDate(String date) {
-        final var dateValid = of("birthDate", s -> s.notNull()
-                .message("Attribute birthDate is required!")
-                .pattern("(0[1-9]|[12][0-9]|3[01])(\\/)(0[1-9]|1[1,2])(\\/)(19|20)\\d{2}")
-                .message("Attribute birthDate is invalid!")
-        ).build().validate(date).orElseThrow(InvalidDataException::new);
+        if (date == null) throw new InvalidDataException("Attribute birthDate is required!");
 
-        this.birthDate = LocalDate.parse(dateValid, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        if (!date.matches("(0[1-9]|[12][0-9]|3[01])(\\/)(0[1-9]|1[1,2])(\\/)(19|20)\\d{2}")) {
+            throw new InvalidDataException("Attribute birthDate is invalid!");
+        }
+
+        this.birthDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
     public LocalDate birthDate() {

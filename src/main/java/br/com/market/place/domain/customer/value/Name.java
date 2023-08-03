@@ -1,22 +1,23 @@
 package br.com.market.place.domain.customer.value;
-
-import br.com.market.place.domain.shared.exception.InvalidDataException;
+import br.com.market.place.domain.shared.valodator.ValueObjectValidator;
 import jakarta.persistence.Embeddable;
+import net.sf.oval.constraint.NotEmpty;
+import net.sf.oval.constraint.NotNull;
 
 
 import java.util.Objects;
 
-import static am.ik.yavi.builder.StringValidatorBuilder.of;
 
 
 @Embeddable
 public class Name {
-
+    @NotEmpty(message = "Attribute name is required!")
+    @NotNull(message = "Attribute name is required!")
     private String name;
 
     public Name(String name) {
-        var nameVal = of("name", s -> s.notBlank().message("Attribute name is required!")).build().validate(name);
-        this.name = name;nameVal.orElseThrow(InvalidDataException::new);
+        this.name = name;
+        new ValueObjectValidator().validate(this);
     }
 
     protected Name() {

@@ -17,17 +17,15 @@ class EmailTest {
         assertThat(email.email(), Matchers.is("any@email.com"));
     }
 
-    @NullSource
-    @ParameterizedTest
-    @ValueSource(strings = {""})
-    void shouldInvalidDataExceptionWhenReceiveNullOrEmpty(String email) {
-        var exception = assertThrows(InvalidDataException.class, () -> new Email(email));
+    @Test
+    void shouldInvalidDataExceptionWhenReceiveNull() {
+        var exception = assertThrows(InvalidDataException.class, () -> new Email(null));
         assertThat(exception.getMessage(), Matchers.is("Attribute email is required!"));
     }
 
 
     @ParameterizedTest
-    @ValueSource(strings = {"any", "any.com", "any com", "@com.br"})
+    @ValueSource(strings = {"any", "any.com", "any com", "@com.br",""})
     void shouldInvalidDataExceptionWhenReceiveInvalidEmail(String email) {
         var exception = assertThrows(InvalidDataException.class, () -> new Email(email));
         assertThat(exception.getMessage(), Matchers.is("Attribute email is invalid!"));
