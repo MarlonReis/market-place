@@ -1,6 +1,7 @@
 package br.com.market.place.domain.payment.entity;
-import br.com.market.place.domain.customer.entity.Physical;
-import br.com.market.place.domain.customer.value.BirthDate;
+
+import br.com.market.place.domain.customer.factory.CustomerEntityMockFactory;
+import br.com.market.place.domain.customer.factory.PaymentEntityMockFactory;
 import br.com.market.place.domain.payment.constant.PaymentStatus;
 import br.com.market.place.domain.payment.service.CancelPaymentService;
 import br.com.market.place.domain.payment.service.RunPaymentService;
@@ -12,13 +13,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
+import org.mockito.ArgumentCaptor;
+import org.mockito.ArgumentMatchers;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.testcontainers.shaded.org.hamcrest.Matchers;
 
 import java.util.UUID;
 
-import static br.com.market.place.domain.shared.constant.CurrencyType.BRL;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.testcontainers.shaded.org.hamcrest.MatcherAssert.assertThat;
 
@@ -28,14 +30,9 @@ class BilletTest {
 
     @BeforeEach
     void setUp() {
+        var customer = new CustomerEntityMockFactory().makePhysicalFactory().now();
         address = Address.Builder.build().withCity("London").withStreet("Baker Street").withNumber("221").withComponent("B").withZipCode("37540232").now();
-        billet = Billet.Builder.build()
-                .withDueDateExpireInDays(3)
-                .withCustomer(Physical.Builder.build().withBirthDate(new BirthDate("31/12/1991")).now())
-                .withAmount(new Currency("10.0", BRL))
-                .withPendingStatus()
-                .withAddress(address)
-                .withPayLine("09580928590923405023450230450234509234508080800").now();
+        billet = new PaymentEntityMockFactory().billetFactory(customer);
     }
 
     @Test
@@ -44,7 +41,7 @@ class BilletTest {
         assertThat(billet.getCreateAt(), Matchers.nullValue());
         assertThat(billet.getUpdateAt(), Matchers.nullValue());
         assertThat(billet.getDueDate(), Matchers.is(new DueDate(3)));
-        assertThat(billet.getAmount(), Matchers.is(new Currency("10.0", BRL)));
+        assertThat(billet.getAmount(), Matchers.is(new Currency("10.0", "BRL")));
         assertThat(billet.getStatus(), Matchers.is(PaymentStatus.PENDING));
         assertThat(billet.getCustomer(), Matchers.notNullValue());
         assertThat(billet.getAddress(), Matchers.is(address));
@@ -54,23 +51,25 @@ class BilletTest {
     @Test
     void shouldCallRunPaymentServiceWhenPayTheBillet() {
         RunPaymentService service = Mockito.mock(RunPaymentService.class);
-        Mockito.when(service.executePayment()).thenReturn(PaymentStatus.SUCCESS);
+        Mockito.when(service.executePayment(ArgumentMatchers.any())).thenReturn(PaymentStatus.SUCCESS);
 
         billet.pay(service);
 
         assertThat(billet.getStatus(), Matchers.is(PaymentStatus.SUCCESS));
-        Mockito.verify(service).executePayment();
+        ArgumentCaptor<Payment> argument = ArgumentCaptor.forClass(Payment.class);
+        Mockito.verify(service).executePayment(argument.capture());
     }
 
     @Test
     void shouldCallCancelPaymentServiceWhenCancelTheBilletPayment() {
         CancelPaymentService service = Mockito.mock(CancelPaymentService.class);
-        Mockito.when(service.cancelPayment()).thenReturn(PaymentStatus.CANCELED);
+        Mockito.when(service.cancelPayment(ArgumentMatchers.any())).thenReturn(PaymentStatus.CANCELED);
 
         billet.cancelPayment(service);
 
         assertThat(billet.getStatus(), Matchers.is(PaymentStatus.CANCELED));
-        Mockito.verify(service).cancelPayment();
+        ArgumentCaptor<Payment> argument = ArgumentCaptor.forClass(Payment.class);
+        Mockito.verify(service).cancelPayment(argument.capture());
     }
 
     @ParameterizedTest
@@ -79,8 +78,8 @@ class BilletTest {
         RunPaymentService pay = Mockito.mock(RunPaymentService.class);
         CancelPaymentService service = Mockito.mock(CancelPaymentService.class);
 
-        Mockito.when(pay.executePayment()).thenReturn(status);
-        Mockito.when(service.cancelPayment()).thenReturn(PaymentStatus.CANCELED);
+        Mockito.when(pay.executePayment(ArgumentMatchers.any())).thenReturn(status);
+        Mockito.when(service.cancelPayment(ArgumentMatchers.any())).thenReturn(PaymentStatus.CANCELED);
 
         billet.pay(pay);
 

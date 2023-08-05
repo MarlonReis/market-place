@@ -22,7 +22,7 @@ class DueDateTest {
             DomainDate dueDate = new DueDate(3);
 
             assertThat(dueDate.getDate(), LocalDateTimeMatchers.isDay(2023, Month.OCTOBER, 14));
-            assertThat(dueDate.dateFormatted(), Matchers.is("14/10/2023 22:34:32"));
+            assertThat(dueDate.dateFormatted(), Matchers.is("14/10/2023"));
         }
     }
 

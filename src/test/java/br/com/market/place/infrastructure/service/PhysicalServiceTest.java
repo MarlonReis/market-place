@@ -1,16 +1,12 @@
 package br.com.market.place.infrastructure.service;
 
-import br.com.market.place.domain.customer.boundary.AddressInputBoundary;
+import br.com.market.place.domain.shared.boundary.AddressInputBoundary;
 import br.com.market.place.domain.customer.boundary.physical.CreatePhysicalInputBoundary;
 import br.com.market.place.domain.customer.boundary.physical.UpdatePhysicalInputBoundary;
-import br.com.market.place.domain.customer.constant.DocumentType;
-import br.com.market.place.domain.customer.entity.Legal;
 import br.com.market.place.domain.customer.entity.Physical;
 import br.com.market.place.domain.customer.repository.CustomerRepository;
 import br.com.market.place.domain.customer.service.PhysicalCustomerService;
 import br.com.market.place.domain.customer.value.BirthDate;
-import br.com.market.place.domain.customer.value.CustomerId;
-import br.com.market.place.domain.customer.value.Document;
 import br.com.market.place.domain.customer.value.Email;
 import br.com.market.place.domain.shared.exception.CreateException;
 import br.com.market.place.domain.shared.exception.InvalidDataException;
@@ -28,7 +24,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.testcontainers.shaded.org.hamcrest.Matchers;
@@ -148,7 +143,7 @@ class PhysicalServiceTest {
         Mockito.when(repository.findCustomerById(ArgumentMatchers.any())).thenReturn(Optional.of(Physical.Builder.build().now()));
 
         AddressInputBoundary addressMock = Mockito.mock(AddressInputBoundary.class);
-        Mockito.when(addressMock.toAddress()).thenReturn(null);
+        Mockito.when(addressMock.toEntity()).thenReturn(null);
 
         var exception = assertThrows(Exception.class, () -> service.update(new UpdatePhysicalInputBoundary("ea5d9369-9111-45d6-bfec-96f3f6217197", "any@email.com", "3499903945",
                 addressMock)));

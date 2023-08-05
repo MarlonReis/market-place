@@ -1,6 +1,6 @@
 package br.com.market.place.infrastructure.service;
 
-import br.com.market.place.domain.customer.boundary.AddressInputBoundary;
+import br.com.market.place.domain.shared.boundary.AddressInputBoundary;
 import br.com.market.place.domain.customer.boundary.legal.CreateLegalInputBoundary;
 import br.com.market.place.domain.customer.boundary.legal.UpdateLegalInputBoundary;
 import br.com.market.place.domain.customer.entity.Legal;
@@ -91,7 +91,7 @@ class LegalServiceTest {
         assertThat(legal.getUpdateAt(), Matchers.notNullValue());
         assertThat(legal.getEmail(), Matchers.is(new Email("new-email@faka.com")));
         assertThat(legal.getTelephone(), Matchers.is(new Telephone("3499003234")));
-        assertThat(legal.getAddress().equals(address.toAddress()), Matchers.is(true));
+        assertThat(legal.getAddress().equals(address.toEntity()), Matchers.is(true));
     }
 
     @Test

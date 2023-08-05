@@ -2,13 +2,14 @@ package br.com.market.place.domain.customer.repository;
 
 import br.com.market.place.domain.customer.entity.Customer;
 import br.com.market.place.domain.customer.entity.Physical;
+import br.com.market.place.domain.customer.factory.CustomerEntityMockFactory;
 import br.com.market.place.domain.customer.value.*;
 import br.com.market.place.domain.shared.value.Address;
 import org.exparity.hamcrest.date.LocalDateTimeMatchers;
 import org.hamcrest.Matchers;
 import org.hibernate.exception.ConstraintViolationException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -29,9 +30,17 @@ class PhysicalRepositoryTest {
     @Autowired
     private CustomerRepository repository;
 
+    private CustomerEntityMockFactory factory;
+
+    @BeforeEach
+    void setUp(){
+        factory = new CustomerEntityMockFactory();
+    }
+
+
     @Test
     void shouldReturnPhysicalDataWhenSaveWithSuccess() {
-        Physical physical = createPhysicalFactory().now();
+        Physical physical = factory.makePhysicalFactory().now();
         var response = repository.saveAndFlush(physical);
 
         assertThat(response.getId(), Matchers.notNullValue());
@@ -48,9 +57,9 @@ class PhysicalRepositoryTest {
 
     @Test
     void shouldThrowDataIntegrityViolationExceptionWhenDocumentIsDuplicated() {
-        repository.saveAndFlush(createPhysicalFactory().now());
+        repository.saveAndFlush(factory.makePhysicalFactory().now());
 
-        var exception = assertThrows(DataIntegrityViolationException.class, () -> repository.saveAndFlush(createPhysicalFactory().now()));
+        var exception = assertThrows(DataIntegrityViolationException.class, () -> repository.saveAndFlush(factory.makePhysicalFactory().now()));
         var cause = (ConstraintViolationException) exception.getCause();
 
         assertThat(cause.getErrorMessage(), Matchers.containsString("53627187113"));
@@ -59,10 +68,10 @@ class PhysicalRepositoryTest {
 
     @Test
     void shouldThrowDataIntegrityViolationExceptionWhenEmailIsDuplicated() {
-        repository.saveAndFlush(createPhysicalFactory().withDocument("536.271.871-16", CPF).now());
+        repository.saveAndFlush(factory.makePhysicalFactory().withDocument("536.271.871-16", CPF).now());
 
         var exception = assertThrows(DataIntegrityViolationException.class,
-                () -> repository.saveAndFlush(createPhysicalFactory().now()));
+                () -> repository.saveAndFlush(factory.makePhysicalFactory().now()));
         var cause = (ConstraintViolationException) exception.getCause();
 
         assertThat(cause.getErrorMessage(), Matchers.containsString("benedito-araujo91@gmnail.com"));
@@ -70,7 +79,7 @@ class PhysicalRepositoryTest {
 
     @Test
     void shouldReturnPhysicalDataWhenFoundByDocument() {
-        repository.saveAndFlush(createPhysicalFactory().now());
+        repository.saveAndFlush(factory.makePhysicalFactory().now());
         Optional<Customer> response = repository.findCustomerByDocument(new Document("536.271.871-13", CPF));
         Optional<Customer> responseNotFound = repository.findCustomerByDocument(new Document("536.271.871-15", CPF));
 
@@ -82,16 +91,6 @@ class PhysicalRepositoryTest {
     }
 
 
-    private Physical.Builder createPhysicalFactory() {
-        return Physical.Builder.build()
-                .withName(new Name("Benedito Caio Araújo"))
-                .withDocument("536.271.871-13", CPF)
-                .withEmail(new Email("benedito-araujo91@gmnail.com"))
-                .withBirthDate(new BirthDate("23/02/2001"))
-                .withTelephone(new Telephone("11999982343"))
-                .withAddress(Address.Builder.build().withCity("London")
-                        .withStreet("Baker Street").withNumber("221")
-                        .withComponent("B").withZipCode("37540232").now());
-    }
+
 
 }
