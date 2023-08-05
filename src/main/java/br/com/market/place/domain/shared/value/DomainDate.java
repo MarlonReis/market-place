@@ -22,7 +22,7 @@ public sealed abstract class DomainDate permits DueDate, CreateAt, UpdateAt {
         return date;
     }
 
-    public final String dateFormatted() {
+    public String dateFormatted() {
         return date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
     }
 

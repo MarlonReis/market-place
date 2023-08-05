@@ -27,14 +27,14 @@ public class CredCard extends Payment {
 
     @Override
     public void pay(RunPaymentService paymentService) {
-        PaymentStatus status = paymentService.executePayment();
+        PaymentStatus status = paymentService.executePayment(this);
         setStatus(status);
     }
 
     @Override
     public void cancelPayment(CancelPaymentService payment) {
         if (getStatus().itIsThat(PaymentStatus.PENDING, PaymentStatus.SUCCESS)) {
-            PaymentStatus status = payment.cancelPayment();
+            PaymentStatus status = payment.cancelPayment(this);
             if (status.itIsThat(PaymentStatus.SUCCESS))
                 setStatus(PaymentStatus.CANCELED);
         } else {

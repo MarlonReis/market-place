@@ -14,7 +14,7 @@ public class Currency {
     private BigDecimal amount;
     private CurrencyType currencyType;
 
-    public Currency(String amount, CurrencyType type) {
+    public Currency(String amount, String type) {
         if (amount == null) throw new InvalidDataException("Attribute amount is required!");
         if (type == null) throw new InvalidDataException("Attribute currencyType is required!");
 
@@ -22,8 +22,9 @@ public class Currency {
             throw new InvalidDataException("Attribute amount is invalid!");
         }
         this.amount = new BigDecimal(amount);
-        this.currencyType = type;
+        this.currencyType = CurrencyType.findByType(type);
     }
+
 
     protected Currency() {
     }

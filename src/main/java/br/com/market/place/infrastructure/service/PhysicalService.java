@@ -47,7 +47,7 @@ public class PhysicalService implements PhysicalCustomerService {
         try {
             response.map(cap -> (Physical) cap).ifPresent(physical -> {
                 logger.info("Update physical customer by id {}", data.customerId());
-                physical.changeAddress(data.address().toAddress());
+                physical.changeAddress(data.address().toEntity());
                 physical.changeTelephone(data.telephone());
                 physical.changeEmail(data.email());
                 repository.saveAndFlush(physical);

@@ -48,7 +48,7 @@ public class LegalService implements LegalCustomerService {
         response.ifPresent(legal -> {
             logger.info("Update legal customer with document equals {}", legal.getId().getId());
             legal.changeEmail(data.email());
-            legal.changeAddress(data.address().toAddress());
+            legal.changeAddress(data.address().toEntity());
             legal.changeTelephone(data.telephone());
             repository.saveAndFlush(legal);
         });

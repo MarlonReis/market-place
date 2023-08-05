@@ -3,6 +3,7 @@ package br.com.market.place.domain.shared.value;
 import jakarta.persistence.Embeddable;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 @Embeddable
@@ -13,6 +14,13 @@ public final class DueDate extends DomainDate {
 
     public DueDate(int expireInDays) {
         super(LocalDateTime.now().plusDays(expireInDays));
+    }
+
+
+
+    @Override
+    public String dateFormatted() {
+        return getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
     @Override

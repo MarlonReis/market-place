@@ -1,6 +1,7 @@
 package br.com.market.place.domain.shared.constant;
 
 import java.util.Locale;
+import java.util.stream.Stream;
 
 public enum CurrencyType {
     USD(Locale.US),
@@ -11,6 +12,10 @@ public enum CurrencyType {
 
     CurrencyType(Locale country) {
         this.country = country;
+    }
+
+    public static CurrencyType findByType(String type) {
+        return Stream.of(values()).filter(va -> va.name().equalsIgnoreCase(type)).findFirst().orElseThrow();
     }
 
     public Locale country() {

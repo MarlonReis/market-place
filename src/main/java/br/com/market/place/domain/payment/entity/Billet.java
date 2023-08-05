@@ -1,6 +1,7 @@
 package br.com.market.place.domain.payment.entity;
 
 import br.com.market.place.domain.customer.entity.Customer;
+import br.com.market.place.domain.payment.boundary.ReadBilletOutputBoundary;
 import br.com.market.place.domain.payment.constant.PaymentStatus;
 import br.com.market.place.domain.payment.service.CancelPaymentService;
 import br.com.market.place.domain.payment.service.RunPaymentService;
@@ -29,16 +30,16 @@ public class Billet extends Payment {
 
     @Override
     public void pay(RunPaymentService payment) {
-        PaymentStatus status = payment.executePayment();
+        PaymentStatus status = payment.executePayment(this);
         setStatus(status);
     }
 
     @Override
     public void cancelPayment(CancelPaymentService payment) {
         if (getStatus().itIsThat(SUCCESS, PENDING)) {
-            var status = payment.cancelPayment();
+            var status = payment.cancelPayment(this);
             setStatus(status);
-        }else {
+        } else {
             throw new PaymentException(String.format("Cannot cancel payment with status %s!", getStatus().name()));
         }
     }
@@ -59,6 +60,16 @@ public class Billet extends Payment {
         this.dueDate = dueDate;
     }
 
+    public ReadBilletOutputBoundary toReadBilletOutputBoundary() {
+        return new ReadBilletOutputBoundary(
+                getId().toString(),
+                getDueDate().dateFormatted(),
+                getCustomer().getDocument().document(),
+                getCustomer().getDocument().documentType().name(),
+                getPayLine(),
+                getAmount().formatted()
+        );
+    }
 
     public static final class Builder {
         private Billet billet;

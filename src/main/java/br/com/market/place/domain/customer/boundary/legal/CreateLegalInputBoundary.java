@@ -1,6 +1,6 @@
 package br.com.market.place.domain.customer.boundary.legal;
 
-import br.com.market.place.domain.customer.boundary.AddressInputBoundary;
+import br.com.market.place.domain.shared.boundary.AddressInputBoundary;
 import br.com.market.place.domain.customer.entity.Legal;
 import br.com.market.place.domain.customer.value.Email;
 import br.com.market.place.domain.customer.value.Name;
@@ -23,7 +23,7 @@ public record CreateLegalInputBoundary(
                 .withStateRegistration(stateRegistration())
                 .withMunicipalRegistration(municipalRegistration())
                 .withCNPJ(cnpj())
-                .withAddress(address.toAddress())
+                .withAddress(address.toEntity())
                 .withEmail(new Email(email()))
                 .withTelephone(new Telephone(telephone()))
                 .now();

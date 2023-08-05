@@ -1,6 +1,6 @@
 package br.com.market.place.domain.customer.boundary.physical;
 
-import br.com.market.place.domain.customer.boundary.AddressInputBoundary;
+import br.com.market.place.domain.shared.boundary.AddressInputBoundary;
 import br.com.market.place.domain.customer.constant.DocumentType;
 import br.com.market.place.domain.customer.entity.Physical;
 import br.com.market.place.domain.customer.value.BirthDate;
@@ -24,7 +24,7 @@ public record CreatePhysicalInputBoundary(
                 .withTelephone(new Telephone(telephone()))
                 .withBirthDate(new BirthDate(birthDate()))
                 .withDocument(document(), DocumentType.physicalType(documentType()))
-                .withAddress(address().toAddress())
+                .withAddress(address().toEntity())
                 .now();
     }
 }

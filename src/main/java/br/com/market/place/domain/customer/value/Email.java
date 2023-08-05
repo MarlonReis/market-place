@@ -1,6 +1,6 @@
 package br.com.market.place.domain.customer.value;
 
-import br.com.market.place.domain.shared.valodator.ValueObjectValidator;
+import br.com.market.place.domain.shared.validator.ValueObjectValidator;
 import jakarta.persistence.Embeddable;
 import net.sf.oval.constraint.NotNull;
 

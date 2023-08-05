@@ -1,6 +1,6 @@
 package br.com.market.place.domain.customer.entity;
 
-import br.com.market.place.domain.customer.boundary.ReadAddressOutputBoundary;
+import br.com.market.place.domain.shared.boundary.ReadAddressOutputBoundary;
 import br.com.market.place.domain.customer.boundary.physical.ReadPhysicalOutputBoundary;
 import br.com.market.place.domain.customer.constant.DocumentType;
 import br.com.market.place.domain.customer.value.*;

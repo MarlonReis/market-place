@@ -1,6 +1,6 @@
 package br.com.market.place.domain.customer.boundary.physical;
 
-import br.com.market.place.domain.customer.boundary.ReadAddressOutputBoundary;
+import br.com.market.place.domain.shared.boundary.ReadAddressOutputBoundary;
 
 public record ReadPhysicalOutputBoundary(
         String customerId,

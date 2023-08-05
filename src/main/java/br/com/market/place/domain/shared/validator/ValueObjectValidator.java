@@ -1,4 +1,4 @@
-package br.com.market.place.domain.shared.valodator;
+package br.com.market.place.domain.shared.validator;
 
 import br.com.market.place.domain.shared.exception.InvalidDataException;
 import net.sf.oval.ConstraintViolation;

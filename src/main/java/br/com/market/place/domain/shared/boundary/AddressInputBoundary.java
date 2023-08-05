@@ -1,4 +1,4 @@
-package br.com.market.place.domain.customer.boundary;
+package br.com.market.place.domain.shared.boundary;
 
 import br.com.market.place.domain.shared.value.Address;
 
@@ -9,7 +9,7 @@ public record AddressInputBoundary(
         String component,
         String zipCode
 ) {
-    public Address toAddress() {
+    public Address toEntity() {
         return Address.Builder.build()
                 .withStreet(street())
                 .withNumber(number())
