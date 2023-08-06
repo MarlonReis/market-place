@@ -1,5 +1,6 @@
 package br.com.market.place.domain.shared.exception;
 
+import br.com.market.place.domain.shared.exception.data.MessageExceptionResponseData;
 import org.springframework.http.HttpStatus;
 
 public abstract class DomainException extends RuntimeException {
@@ -14,9 +15,8 @@ public abstract class DomainException extends RuntimeException {
         return status;
     }
 
-    public final ResponseData getData(){
-        return new ResponseData(getMessage());
+    public final MessageExceptionResponseData getData(){
+        return new MessageExceptionResponseData(getMessage());
     }
 
-    public record ResponseData(String message) { }
 }

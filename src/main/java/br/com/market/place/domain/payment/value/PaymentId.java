@@ -5,7 +5,11 @@ import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class PaymentId extends EntityId {
-    public PaymentId(){
+    public PaymentId() {
         super();
+    }
+
+    public PaymentId(String id) {
+        super(id);
     }
 }

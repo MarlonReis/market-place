@@ -1,6 +1,7 @@
 package br.com.market.place.domain.payment.entity;
 
 import br.com.market.place.domain.customer.entity.Customer;
+import br.com.market.place.domain.payment.boundary.ReadCredCardOutputBoundary;
 import br.com.market.place.domain.payment.constant.PaymentStatus;
 import br.com.market.place.domain.payment.service.CancelPaymentService;
 import br.com.market.place.domain.payment.service.RunPaymentService;
@@ -16,7 +17,7 @@ public class CredCard extends Payment {
     private CardPan cardPan;
 
     public CredCard(CardPan cardPan, Currency amount, Address address, PaymentStatus status, Customer customer) {
-        super(amount, address, status,customer);
+        super(amount, address, status, customer);
         this.cardPan = cardPan;
     }
 
@@ -48,6 +49,19 @@ public class CredCard extends Payment {
 
     private void setCardPan(CardPan cardPan) {
         this.cardPan = cardPan;
+    }
+
+    public ReadCredCardOutputBoundary toReadCredCardOutputBoundary() {
+        return new ReadCredCardOutputBoundary(
+                getId().toString(),
+                getCardPan().maskedCard(),
+                getCustomer().getName().name(),
+                getCustomer().getDocument().document(),
+                getCustomer().getDocument().documentType().name(),
+                getAmount().formatted(),
+                getStatus().name(),
+                getCreateAt().dateFormatted()
+        );
     }
 
 
