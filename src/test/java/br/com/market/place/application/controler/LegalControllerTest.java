@@ -2,6 +2,7 @@ package br.com.market.place.application.controler;
 
 import br.com.market.place.MarketPlaceApplication;
 import br.com.market.place.domain.customer.entity.Legal;
+import br.com.market.place.domain.customer.factory.CustomerEntityMockFactory;
 import br.com.market.place.domain.customer.repository.CustomerRepository;
 import br.com.market.place.domain.customer.value.Email;
 import br.com.market.place.domain.customer.value.Name;
@@ -16,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -34,17 +36,7 @@ class LegalControllerTest {
 
     @BeforeEach
     void setUp() {
-        legal = Legal.Builder.build()
-                .withName(new Name("Josefa e Nicole Pizzaria Delivery LTDA"))
-                .withFantasyName(new Name("Josefa e Nicole"))
-                .withCNPJ("33.747.249/0001-14")
-                .withMunicipalRegistration("807337772144")
-                .withStateRegistration("807337772144")
-                .withEmail(new Email("financeiro@email.com.br"))
-                .withTelephone(new Telephone("11999982343"))
-                .withAddress(Address.Builder.build().withCity("London")
-                        .withStreet("Baker Street").withNumber("221")
-                        .withComponent("B").withZipCode("37540232").now()).now();
+        legal = new CustomerEntityMockFactory().makeLegalFactory().now();
     }
 
     @AfterEach
@@ -84,23 +76,23 @@ class LegalControllerTest {
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
                         .content("""
-                                 {
-                                  "name": "Alana e Guilherme",
-                                  "telephone": "1138384351",
-                                  "email": "qualidade@alanaeguilhermeconstrucoesltda.com.br",
-                                  "cnpj": "7711188",
-                                  "fantasyName": "Alana e Guilherme Construções Ltda",
-                                  "municipalRegistration": "1512994",
-                                  "stateRegistration": "151299495372",
-                                  "address": {
-                                    "city": "Santa Rita do Sapucai",
-                                    "street": "Joaquim Teles de Souza",
-                                    "number": "80",
-                                    "component": "APT 102",
-                                    "zipCode": "37540000"
-                                  }
-                                }
-                               """))
+                                  {
+                                   "name": "Alana e Guilherme",
+                                   "telephone": "1138384351",
+                                   "email": "qualidade@alanaeguilhermeconstrucoesltda.com.br",
+                                   "cnpj": "7711188",
+                                   "fantasyName": "Alana e Guilherme Construções Ltda",
+                                   "municipalRegistration": "1512994",
+                                   "stateRegistration": "151299495372",
+                                   "address": {
+                                     "city": "Santa Rita do Sapucai",
+                                     "street": "Joaquim Teles de Souza",
+                                     "number": "80",
+                                     "component": "APT 102",
+                                     "zipCode": "37540000"
+                                   }
+                                 }
+                                """))
                 .andExpect(status().isUnprocessableEntity()).
                 andExpect(content().contentType(APPLICATION_JSON)).
                 andExpect(jsonPath("$.data.message").value("Attribute document of type CNPJ is invalid!")).
@@ -182,7 +174,7 @@ class LegalControllerTest {
     @Test
     void shouldReturnStatusCode200WhenFoundLegalCustomerByEmail() throws Exception {
         var response = repository.save(legal);
-        mockMvc.perform(get("/v1/api/customer/legal/{email}", "financeiro@email.com.br")
+        mockMvc.perform(get("/v1/api/customer/legal/{email}", "financeiro@exemple.com.br")
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON))
                 .andExpect(status().isOk()).

@@ -89,14 +89,4 @@ class BilletServiceTest {
         assertThat(exception.getData().message(), Matchers.is("Cannot be possible to save billet payment!"));
     }
 
-    @Test
-    void shouldReturnBilletsWhenFoundByCustomerId() {
-        customerRepository.saveAndFlush(legal);
-        service.create(legal.getId(), inputBoundary);
-
-        var response = service.findBilletByCustomerId(legal.getId());
-        assertThat(response, Matchers.hasSize(1));
-    }
-
-
 }

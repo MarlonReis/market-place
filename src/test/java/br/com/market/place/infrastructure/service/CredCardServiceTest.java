@@ -83,7 +83,7 @@ class CredCardServiceTest {
     @Test
     void shouldThrowsNotFoundExceptionWhenNotFoundCustomerById() {
         var exception = assertThrows(NotFoundException.class, () -> service.create(legal.getId(), inputBoundary));
-        assertThat(exception.getData().message(),Matchers.is("Cannot be possible to find customer by id"));
+        assertThat(exception.getData().message(), Matchers.is("Cannot be possible to find customer by id"));
     }
 
     @Test
@@ -92,7 +92,7 @@ class CredCardServiceTest {
         Mockito.doThrow(RuntimeException.class).when(paymentRepository).saveAndFlush(ArgumentMatchers.any());
 
         var exception = assertThrows(CreateException.class, () -> service.create(legal.getId(), inputBoundary));
-        assertThat(exception.getData().message(),Matchers.is("Cannot to be create credCard payment!"));
+        assertThat(exception.getData().message(), Matchers.is("Cannot to be create credCard payment!"));
     }
 
 }
