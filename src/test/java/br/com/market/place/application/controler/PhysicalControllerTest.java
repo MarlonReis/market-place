@@ -150,7 +150,7 @@ class PhysicalControllerTest {
                                   }
                                 }
                                 """))
-                .andExpect(status().isNoContent()).
+                .andExpect(status().isNotFound()).
                 andExpect(content().contentType(APPLICATION_JSON)).
                 andExpect(jsonPath("$.data.message").value("Cannot found customer by id!")).
                 andExpect(jsonPath("$.success").value(false));
@@ -174,7 +174,7 @@ class PhysicalControllerTest {
         mockMvc.perform(get("/v1/api/customer/physical/document/{document}/{type}", "53627187113", "CPF")
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON))
-                .andExpect(status().isNoContent()).
+                .andExpect(status().isNotFound()).
                 andExpect(content().contentType(APPLICATION_JSON)).
                 andExpect(jsonPath("$.data.message").value("Customer not found by document!")).
                 andExpect(jsonPath("$.success").value(false));
@@ -198,7 +198,7 @@ class PhysicalControllerTest {
         mockMvc.perform(get("/v1/api/customer/physical/{email}", "benedito-araujo91@gmnail.com")
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON))
-                .andExpect(status().isNoContent()).
+                .andExpect(status().isNotFound()).
                 andExpect(content().contentType(APPLICATION_JSON)).
                 andExpect(jsonPath("$.data.message").value("Customer not found by email!")).
                 andExpect(jsonPath("$.success").value(false));

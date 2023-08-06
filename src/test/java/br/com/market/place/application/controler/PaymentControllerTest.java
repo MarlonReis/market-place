@@ -103,7 +103,7 @@ class PaymentControllerTest {
                                   }
                                 }
                                 """))
-                .andExpect(status().isNoContent()).
+                .andExpect(status().isNotFound()).
                 andExpect(content().contentType(APPLICATION_JSON)).
                 andExpect(jsonPath("$.data.message").value("Customer not found!")).
                 andExpect(jsonPath("$.success").value(false));
@@ -169,7 +169,7 @@ class PaymentControllerTest {
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON))
                 .andDo(print()).
-                andExpect(status().isNoContent()).
+                andExpect(status().isNotFound()).
                 andExpect(content().contentType(APPLICATION_JSON)).
                 andExpect(jsonPath("$.data.message").value("Cannot be possible to find billets payment by customer!")).
                 andExpect(jsonPath("$.success").value(false));
@@ -229,7 +229,7 @@ class PaymentControllerTest {
                                   }
                                 }
                                 """))
-                .andExpect(status().isNoContent()).
+                .andExpect(status().isNotFound()).
                 andExpect(content().contentType(APPLICATION_JSON)).
                 andExpect(jsonPath("$.data.message").value("Cannot be possible to find customer by id")).
                 andExpect(jsonPath("$.success").value(false));
@@ -320,7 +320,7 @@ class PaymentControllerTest {
         mockMvc.perform(get("/v1/api/payment/cred-card/{customerId}", new CustomerId())
                         .contentType(APPLICATION_JSON).accept(APPLICATION_JSON))
                 .andDo(print()).
-                andExpect(status().isNoContent()).
+                andExpect(status().isNotFound()).
                 andExpect(jsonPath("$.success").value(false)).
                 andExpect(jsonPath("$.data.message").value("Cannot be possible to find cred card payment by customer!"));
     }
@@ -379,7 +379,7 @@ class PaymentControllerTest {
                         .header("x-payment-id", new PaymentId())
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON))
-                .andExpect(status().isNoContent()).
+                .andExpect(status().isNotFound()).
                 andExpect(jsonPath("$.success").value(false)).
                 andExpect(jsonPath("$.data.message").value("Cannot be found payment by id"));
     }

@@ -137,7 +137,7 @@ class LegalControllerTest {
                                   }
                                 }
                                 """))
-                .andExpect(status().isNoContent()).
+                .andExpect(status().isNotFound()).
                 andExpect(content().contentType(APPLICATION_JSON)).
                 andExpect(jsonPath("$.data.message").value("Customer not found by CNPJ!")).
                 andExpect(jsonPath("$.success").value(false));
@@ -161,7 +161,7 @@ class LegalControllerTest {
         mockMvc.perform(get("/v1/api/customer/legal/document/{document}", "33747249000114")
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON))
-                .andExpect(status().isNoContent()).
+                .andExpect(status().isNotFound()).
                 andExpect(content().contentType(APPLICATION_JSON)).
                 andExpect(jsonPath("$.data.message").value("Customer not found!")).
                 andExpect(jsonPath("$.success").value(false));
@@ -185,7 +185,7 @@ class LegalControllerTest {
         mockMvc.perform(get("/v1/api/customer/legal/{email}", "not.found@email.com")
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON))
-                .andExpect(status().isNoContent()).
+                .andExpect(status().isNotFound()).
                 andExpect(content().contentType(APPLICATION_JSON)).
                 andExpect(jsonPath("$.data.message").value("Customer not found!")).
                 andExpect(jsonPath("$.success").value(false));
