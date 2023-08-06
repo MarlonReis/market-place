@@ -12,7 +12,7 @@ import br.com.market.place.domain.shared.value.DueDate;
 import jakarta.persistence.Entity;
 
 import static br.com.market.place.domain.payment.constant.PaymentStatus.PENDING;
-import static br.com.market.place.domain.payment.constant.PaymentStatus.SUCCESS;
+import static br.com.market.place.domain.payment.constant.PaymentStatus.PAID_OUT;
 
 @Entity
 public class Billet extends Payment {
@@ -30,13 +30,17 @@ public class Billet extends Payment {
 
     @Override
     public void pay(RunPaymentService payment) {
-        PaymentStatus status = payment.executePayment(this);
-        setStatus(status);
+        if (getStatus().itIsThat(PENDING)) {
+            PaymentStatus status = payment.executePayment(this);
+            setStatus(status);
+        } else {
+            throw new PaymentException("Cannot run billet payment with status different of pending!");
+        }
     }
 
     @Override
     public void cancelPayment(CancelPaymentService payment) {
-        if (getStatus().itIsThat(SUCCESS, PENDING)) {
+        if (getStatus().itIsThat(PAID_OUT, PENDING)) {
             var status = payment.cancelPayment(this);
             setStatus(status);
         } else {
@@ -66,8 +70,10 @@ public class Billet extends Payment {
                 getDueDate().dateFormatted(),
                 getCustomer().getDocument().document(),
                 getCustomer().getDocument().documentType().name(),
+                getCustomer().getName().name(),
                 getPayLine(),
-                getAmount().formatted()
+                getAmount().formatted(),
+                getStatus().name()
         );
     }
 

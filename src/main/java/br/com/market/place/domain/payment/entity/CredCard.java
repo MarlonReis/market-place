@@ -28,16 +28,19 @@ public class CredCard extends Payment {
 
     @Override
     public void pay(RunPaymentService paymentService) {
-        PaymentStatus status = paymentService.executePayment(this);
-        setStatus(status);
+        if (getStatus().itIsThat(PaymentStatus.PENDING)) {
+            PaymentStatus status = paymentService.executePayment(this);
+            setStatus(status);
+        } else {
+            throw new PaymentException("Cannot run cred card payment with status different of pending!");
+        }
     }
 
     @Override
     public void cancelPayment(CancelPaymentService payment) {
-        if (getStatus().itIsThat(PaymentStatus.PENDING, PaymentStatus.SUCCESS)) {
+        if (getStatus().itIsThat(PaymentStatus.PENDING, PaymentStatus.PAID_OUT)) {
             PaymentStatus status = payment.cancelPayment(this);
-            if (status.itIsThat(PaymentStatus.SUCCESS))
-                setStatus(PaymentStatus.CANCELED);
+            setStatus(status);
         } else {
             throw new PaymentException(String.format("Cannot cancel payment with status %s!", getStatus().name()));
         }

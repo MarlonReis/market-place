@@ -1,7 +1,7 @@
 package br.com.market.place.domain.payment.entity;
 
-import br.com.market.place.domain.customer.factory.CustomerEntityMockFactory;
-import br.com.market.place.domain.customer.factory.PaymentEntityMockFactory;
+import br.com.market.place.factory.CustomerEntityMockFactory;
+import br.com.market.place.factory.PaymentEntityMockFactory;
 import br.com.market.place.domain.payment.constant.PaymentStatus;
 import br.com.market.place.domain.payment.service.CancelPaymentService;
 import br.com.market.place.domain.payment.service.RunPaymentService;
@@ -51,11 +51,11 @@ class BilletTest {
     @Test
     void shouldCallRunPaymentServiceWhenPayTheBillet() {
         RunPaymentService service = Mockito.mock(RunPaymentService.class);
-        Mockito.when(service.executePayment(ArgumentMatchers.any())).thenReturn(PaymentStatus.SUCCESS);
+        Mockito.when(service.executePayment(ArgumentMatchers.any())).thenReturn(PaymentStatus.PAID_OUT);
 
         billet.pay(service);
 
-        assertThat(billet.getStatus(), Matchers.is(PaymentStatus.SUCCESS));
+        assertThat(billet.getStatus(), Matchers.is(PaymentStatus.PAID_OUT));
         ArgumentCaptor<Payment> argument = ArgumentCaptor.forClass(Payment.class);
         Mockito.verify(service).executePayment(argument.capture());
     }

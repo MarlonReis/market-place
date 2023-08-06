@@ -5,7 +5,9 @@ public record ReadBilletOutputBoundary(
         String dueDate,
         String document,
         String documentType,
+        String fullName,
         String payLine,
-        String amount
+        String amount,
+        String status
 ) {
 }

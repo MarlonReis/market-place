@@ -2,7 +2,7 @@ package br.com.market.place.domain.customer.repository;
 
 import br.com.market.place.domain.customer.entity.Customer;
 import br.com.market.place.domain.customer.entity.Legal;
-import br.com.market.place.domain.customer.factory.CustomerEntityMockFactory;
+import br.com.market.place.factory.CustomerEntityMockFactory;
 import br.com.market.place.domain.customer.value.*;
 import br.com.market.place.domain.payment.entity.CredCard;
 import br.com.market.place.domain.payment.repository.PaymentRepository;
@@ -12,7 +12,6 @@ import br.com.market.place.domain.shared.value.Currency;
 import org.exparity.hamcrest.date.LocalDateTimeMatchers;
 import org.hamcrest.Matchers;
 import org.hibernate.exception.ConstraintViolationException;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,6 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static br.com.market.place.domain.customer.constant.DocumentType.CNPJ;
-import static br.com.market.place.domain.shared.constant.CurrencyType.BRL;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 

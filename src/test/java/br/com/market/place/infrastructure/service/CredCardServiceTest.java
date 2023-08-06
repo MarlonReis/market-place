@@ -1,7 +1,7 @@
 package br.com.market.place.infrastructure.service;
 
 import br.com.market.place.domain.customer.entity.Legal;
-import br.com.market.place.domain.customer.factory.CustomerEntityMockFactory;
+import br.com.market.place.factory.CustomerEntityMockFactory;
 import br.com.market.place.domain.customer.repository.CustomerRepository;
 import br.com.market.place.domain.payment.boundary.CreateCardInputBoundary;
 import br.com.market.place.domain.payment.entity.CredCard;

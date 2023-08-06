@@ -1,8 +1,8 @@
 package br.com.market.place.infrastructure.service.payment;
 
 import br.com.market.place.domain.customer.entity.Legal;
-import br.com.market.place.domain.customer.factory.CustomerEntityMockFactory;
-import br.com.market.place.domain.customer.factory.PaymentEntityMockFactory;
+import br.com.market.place.factory.CustomerEntityMockFactory;
+import br.com.market.place.factory.PaymentEntityMockFactory;
 import br.com.market.place.domain.customer.repository.CustomerRepository;
 import br.com.market.place.domain.payment.constant.PaymentStatus;
 import br.com.market.place.domain.payment.entity.Payment;
@@ -70,7 +70,7 @@ class ManagementPaymentServiceTest {
 
         Payment payment = argument.getValue();
         assertThat(payment.getId(), Matchers.notNullValue());
-        assertThat(payment.getStatus(), Matchers.is(PaymentStatus.SUCCESS));
+        assertThat(payment.getStatus(), Matchers.is(PaymentStatus.PAID_OUT));
     }
 
     @Test

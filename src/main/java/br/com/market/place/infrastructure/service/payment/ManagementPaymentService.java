@@ -7,6 +7,7 @@ import br.com.market.place.domain.payment.service.PaymentService;
 import br.com.market.place.domain.payment.service.RunPaymentService;
 import br.com.market.place.domain.payment.value.PaymentId;
 import br.com.market.place.domain.shared.exception.NotFoundException;
+import br.com.market.place.domain.shared.exception.PaymentException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,11 @@ public class ManagementPaymentService implements PaymentService {
         logger.info("Cancel payment {}", id);
         Payment payment = findPaymentById(id);
         payment.cancelPayment(cancelPaymentService);
-        paymentRepository.saveAndFlush(payment);
+        try {
+            paymentRepository.saveAndFlush(payment);
+        } catch (Exception ex) {
+            logger.error("Cancel payment {}, error: {}", payment, ex.getMessage());
+            throw new PaymentException("Cannot be cancel the payment!");
+        }
     }
 }

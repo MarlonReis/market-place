@@ -14,6 +14,10 @@ public class CancelPaymentExternalService implements CancelPaymentService {
     @Override
     public PaymentStatus cancelPayment(Payment payment) {
         logger.info("Cancel payment: {}", payment);
-        return PaymentStatus.SUCCESS;
+        return switch (payment.getStatus()) {
+            case PAID_OUT -> PaymentStatus.REVERSED;
+            case PENDING -> PaymentStatus.CANCELED;
+            default -> PaymentStatus.FAIL;
+        };
     }
 }

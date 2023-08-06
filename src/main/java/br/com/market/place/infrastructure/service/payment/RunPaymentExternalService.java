@@ -14,6 +14,6 @@ public class RunPaymentExternalService implements RunPaymentService {
     @Override
     public PaymentStatus executePayment(Payment payment) {
         logger.info("Run payment: {}", payment);
-        return PaymentStatus.SUCCESS;
+        return PaymentStatus.PAID_OUT;
     }
 }

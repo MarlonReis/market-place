@@ -1,4 +1,4 @@
-package br.com.market.place.domain.customer.factory;
+package br.com.market.place.factory;
 
 import br.com.market.place.domain.customer.entity.Customer;
 import br.com.market.place.domain.payment.entity.Billet;

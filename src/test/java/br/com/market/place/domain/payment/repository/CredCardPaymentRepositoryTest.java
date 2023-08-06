@@ -1,8 +1,8 @@
 package br.com.market.place.domain.payment.repository;
 
 import br.com.market.place.domain.customer.entity.Physical;
-import br.com.market.place.domain.customer.factory.CustomerEntityMockFactory;
-import br.com.market.place.domain.customer.factory.PaymentEntityMockFactory;
+import br.com.market.place.factory.CustomerEntityMockFactory;
+import br.com.market.place.factory.PaymentEntityMockFactory;
 import br.com.market.place.domain.payment.constant.PaymentStatus;
 import br.com.market.place.domain.payment.entity.CredCard;
 import br.com.market.place.domain.payment.service.RunPaymentService;
@@ -55,7 +55,7 @@ class CredCardPaymentRepositoryTest {
     @Test
     void shouldUpdateToSuccessPaymentWhenWithSuccess() {
         RunPaymentService paymentService = Mockito.mock(RunPaymentService.class);
-        Mockito.when(paymentService.executePayment(ArgumentMatchers.any())).thenReturn(PaymentStatus.SUCCESS);
+        Mockito.when(paymentService.executePayment(ArgumentMatchers.any())).thenReturn(PaymentStatus.PAID_OUT);
         repository.saveAndFlush(credCard);
 
         credCard.pay(paymentService);
@@ -63,7 +63,7 @@ class CredCardPaymentRepositoryTest {
 
         var response = repository.findById(credCard.getId()).orElseThrow();
 
-        assertThat(response.getStatus(), Matchers.is(PaymentStatus.SUCCESS));
+        assertThat(response.getStatus(), Matchers.is(PaymentStatus.PAID_OUT));
         assertThat(response.getCreateAt(), Matchers.notNullValue());
         assertThat(response.getUpdateAt(), Matchers.notNullValue());
     }

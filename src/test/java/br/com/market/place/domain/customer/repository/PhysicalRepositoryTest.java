@@ -2,7 +2,7 @@ package br.com.market.place.domain.customer.repository;
 
 import br.com.market.place.domain.customer.entity.Customer;
 import br.com.market.place.domain.customer.entity.Physical;
-import br.com.market.place.domain.customer.factory.CustomerEntityMockFactory;
+import br.com.market.place.factory.CustomerEntityMockFactory;
 import br.com.market.place.domain.customer.value.*;
 import br.com.market.place.domain.shared.value.Address;
 import org.exparity.hamcrest.date.LocalDateTimeMatchers;

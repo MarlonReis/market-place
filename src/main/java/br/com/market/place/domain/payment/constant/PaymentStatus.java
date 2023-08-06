@@ -4,10 +4,11 @@ import java.util.Arrays;
 
 public enum PaymentStatus {
     PENDING,
-    SUCCESS,
+    PAID_OUT,
     CANCELED,
     FAIL,
-    EXPIRED;
+    EXPIRED,
+    REVERSED;
 
     public boolean itIsThat(PaymentStatus ...status){
         return Arrays.asList(status).contains(this);

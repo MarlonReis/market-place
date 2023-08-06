@@ -2,12 +2,8 @@ package br.com.market.place.application.controler;
 
 import br.com.market.place.MarketPlaceApplication;
 import br.com.market.place.domain.customer.entity.Legal;
-import br.com.market.place.domain.customer.factory.CustomerEntityMockFactory;
+import br.com.market.place.factory.CustomerEntityMockFactory;
 import br.com.market.place.domain.customer.repository.CustomerRepository;
-import br.com.market.place.domain.customer.value.Email;
-import br.com.market.place.domain.customer.value.Name;
-import br.com.market.place.domain.customer.value.Telephone;
-import br.com.market.place.domain.shared.value.Address;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -2,8 +2,8 @@ package br.com.market.place.application.controler;
 
 import br.com.market.place.MarketPlaceApplication;
 import br.com.market.place.domain.customer.entity.Customer;
-import br.com.market.place.domain.customer.factory.CustomerEntityMockFactory;
-import br.com.market.place.domain.customer.factory.PaymentEntityMockFactory;
+import br.com.market.place.factory.CustomerEntityMockFactory;
+import br.com.market.place.factory.PaymentEntityMockFactory;
 import br.com.market.place.domain.customer.repository.CustomerRepository;
 import br.com.market.place.domain.customer.value.CustomerId;
 import br.com.market.place.domain.payment.entity.Billet;

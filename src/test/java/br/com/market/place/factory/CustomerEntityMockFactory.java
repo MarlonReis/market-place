@@ -1,4 +1,4 @@
-package br.com.market.place.domain.customer.factory;
+package br.com.market.place.factory;
 
 import br.com.market.place.domain.customer.entity.Legal;
 import br.com.market.place.domain.customer.entity.Physical;

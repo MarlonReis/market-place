@@ -1,7 +1,7 @@
 package br.com.market.place.domain.payment.entity;
 
-import br.com.market.place.domain.customer.factory.CustomerEntityMockFactory;
-import br.com.market.place.domain.customer.factory.PaymentEntityMockFactory;
+import br.com.market.place.factory.CustomerEntityMockFactory;
+import br.com.market.place.factory.PaymentEntityMockFactory;
 import br.com.market.place.domain.customer.value.Email;
 import br.com.market.place.domain.payment.constant.PaymentStatus;
 import br.com.market.place.domain.payment.service.CancelPaymentService;
@@ -52,17 +52,17 @@ class CredCardTest {
     void shouldUpdatePaymentStatusToSuccessWhenCallRunPaymentService() {
         RunPaymentService runPaymentService = Mockito.mock(RunPaymentService.class);
 
-        Mockito.when(runPaymentService.executePayment(ArgumentMatchers.any())).thenReturn(SUCCESS);
+        Mockito.when(runPaymentService.executePayment(ArgumentMatchers.any())).thenReturn(PAID_OUT);
         credCard.pay(runPaymentService);
 
-        assertThat(credCard.getStatus(), Matchers.is(SUCCESS));
+        assertThat(credCard.getStatus(), Matchers.is(PAID_OUT));
 
         ArgumentCaptor<Payment> argument = ArgumentCaptor.forClass(Payment.class);
         Mockito.verify(runPaymentService).executePayment(argument.capture());
     }
 
     @ParameterizedTest
-    @EnumSource(names = {"PENDING", "SUCCESS"})
+    @EnumSource(names = {"PENDING", "PAID_OUT"})
     void shouldUpdatePaymentStatusToCancelWhenCallCancelPaymentService(PaymentStatus status) {
         CancelPaymentService cancelPaymentService = Mockito.mock(CancelPaymentService.class);
         RunPaymentService runPaymentService = Mockito.mock(RunPaymentService.class);
@@ -70,7 +70,7 @@ class CredCardTest {
 
         credCard.pay(runPaymentService);
 
-        Mockito.when(cancelPaymentService.cancelPayment(ArgumentMatchers.any())).thenReturn(SUCCESS);
+        Mockito.when(cancelPaymentService.cancelPayment(ArgumentMatchers.any())).thenReturn(CANCELED);
         credCard.cancelPayment(cancelPaymentService);
 
         assertThat(credCard.getStatus(), Matchers.is(CANCELED));
@@ -102,7 +102,7 @@ class CredCardTest {
         Mockito.when(cancelPaymentService.cancelPayment(ArgumentMatchers.any())).thenReturn(status);
         credCard.cancelPayment(cancelPaymentService);
 
-        assertThat(credCard.getStatus(), Matchers.is(PENDING));
+        assertThat(credCard.getStatus(), Matchers.is(status));
     }
 
 
