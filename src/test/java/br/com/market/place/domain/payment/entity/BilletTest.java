@@ -61,6 +61,27 @@ class BilletTest {
     }
 
     @Test
+    void shouldThrowPaymentExceptionWhenTryPayWithPaymentWithStatusIsDifferentOfPending() {
+        RunPaymentService service = Mockito.mock(RunPaymentService.class);
+        Payment payment = Billet.Builder.build().now();
+        payment.setStatus(PaymentStatus.CANCELED);
+
+        var exception = assertThrows(PaymentException.class, () -> payment.pay(service));
+        assertThat(exception.getMessage(),Matchers.is("Cannot run billet payment with status different of pending!"));
+    }
+
+    @ParameterizedTest
+    @EnumSource(names = {"CANCELED","FAIL","EXPIRED","REVERSED"})
+    void shouldThrowPaymentExceptionWhenTryCancelPaymentWithStatusIsDifferentOfPendingAndPaidOut(PaymentStatus status) {
+        CancelPaymentService service = Mockito.mock(CancelPaymentService.class);
+        Payment payment = Billet.Builder.build().now();
+        payment.setStatus(status);
+
+        var exception = assertThrows(PaymentException.class, () -> payment.cancelPayment(service));
+        assertThat(exception.getMessage(),Matchers.is(String.format("Cannot cancel payment with status %s!", status.name())));
+    }
+
+    @Test
     void shouldCallCancelPaymentServiceWhenCancelTheBilletPayment() {
         CancelPaymentService service = Mockito.mock(CancelPaymentService.class);
         Mockito.when(service.cancelPayment(ArgumentMatchers.any())).thenReturn(PaymentStatus.CANCELED);

@@ -41,7 +41,12 @@ public class ManagementPaymentService implements PaymentService {
         logger.info("Run payment {}", id);
         Payment payment = findPaymentById(id);
         payment.pay(runPaymentService);
-        paymentRepository.saveAndFlush(payment);
+        try {
+            paymentRepository.saveAndFlush(payment);
+        } catch (Exception ex) {
+            logger.error("Run payment {}, error: {}", payment, ex.getMessage());
+            throw new PaymentException("Cannot be run payment!");
+        }
     }
 
     @Override

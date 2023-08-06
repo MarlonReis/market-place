@@ -1,6 +1,7 @@
 package br.com.market.place.infrastructure.service.payment;
 
 import br.com.market.place.domain.customer.entity.Legal;
+import br.com.market.place.domain.shared.exception.PaymentException;
 import br.com.market.place.factory.CustomerEntityMockFactory;
 import br.com.market.place.factory.PaymentEntityMockFactory;
 import br.com.market.place.domain.customer.repository.CustomerRepository;
@@ -10,10 +11,14 @@ import br.com.market.place.domain.payment.repository.PaymentRepository;
 import br.com.market.place.domain.payment.service.PaymentService;
 import br.com.market.place.domain.payment.value.PaymentId;
 import br.com.market.place.domain.shared.exception.NotFoundException;
+import br.com.market.place.infrastructure.service.payment.CancelPaymentExternalService;
+import br.com.market.place.infrastructure.service.payment.ManagementPaymentService;
+import br.com.market.place.infrastructure.service.payment.RunPaymentExternalService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -76,7 +81,7 @@ class ManagementPaymentServiceTest {
     @Test
     void shouldThrowsNotFoundExceptionWhenNotFoundPaymentById() {
         var exception = assertThrows(NotFoundException.class, () -> paymentService.pay(new PaymentId()));
-        assertThat(exception.getMessage(),Matchers.is("Cannot be found payment by id"));
+        assertThat(exception.getMessage(), Matchers.is("Cannot be found payment by id"));
     }
 
     @Test
@@ -89,6 +94,20 @@ class ManagementPaymentServiceTest {
         Payment payment = argument.getValue();
         assertThat(payment.getId(), Matchers.notNullValue());
         assertThat(payment.getStatus(), Matchers.is(PaymentStatus.CANCELED));
+    }
+
+    @Test
+    void shouldThrowPaymentExceptionWhenPayThrowException() {
+        Mockito.doThrow(RuntimeException.class).when(paymentRepository).saveAndFlush(ArgumentMatchers.any());
+        var exception = assertThrows(PaymentException.class, () -> paymentService.pay(paymentId));
+        assertThat(exception.getMessage(),Matchers.is("Cannot be run payment!"));
+    }
+
+    @Test
+    void shouldThrowPaymentExceptionWhenCancelThrowException() {
+        Mockito.doThrow(RuntimeException.class).when(paymentRepository).saveAndFlush(ArgumentMatchers.any());
+        var exception = assertThrows(PaymentException.class, () -> paymentService.cancel(paymentId));
+        assertThat(exception.getMessage(),Matchers.is("Cannot be cancel the payment!"));
     }
 
 }

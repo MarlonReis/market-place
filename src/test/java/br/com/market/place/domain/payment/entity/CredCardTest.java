@@ -105,5 +105,29 @@ class CredCardTest {
         assertThat(credCard.getStatus(), Matchers.is(status));
     }
 
+    @ParameterizedTest
+    @EnumSource(names = {"FAIL", "CANCELED", "EXPIRED", "REVERSED"})
+    void shouldThrowPaymentExceptionWhenTryCancelWithStatus(PaymentStatus status) {
+        CancelPaymentService cancelPaymentService = Mockito.mock(CancelPaymentService.class);
+        Payment payment = CredCard.Builder.build().now();
+        payment.setStatus(status);
+
+        var exception = assertThrows(PaymentException.class, () -> payment.cancelPayment(cancelPaymentService));
+
+        assertThat(exception.getMessage(), Matchers.is(String.format("Cannot cancel payment with status %s!", status.name())));
+    }
+
+    @ParameterizedTest
+    @EnumSource(names = {"FAIL", "CANCELED", "EXPIRED", "REVERSED","PAID_OUT"})
+    void shouldThrowPaymentExceptionWhenTryPayWithStatus(PaymentStatus status) {
+        RunPaymentService service = Mockito.mock(RunPaymentService.class);
+        Payment payment = CredCard.Builder.build().now();
+        payment.setStatus(status);
+
+        var exception = assertThrows(PaymentException.class, () -> payment.pay(service));
+
+        assertThat(exception.getMessage(), Matchers.is("Cannot run cred card payment with status different of pending!"));
+    }
+
 
 }
