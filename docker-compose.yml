@@ -1,20 +1,37 @@
-version: "3.4"
-
+version: '3.8'
 services:
-  database-market-place:
-    image: mysql
+  database:
+    image: mysql:5.7
+    container_name: service_database
+    ports:
+      - "3306:3306"
     restart: on-failure
     environment:
-      MYSQL_ROOT_PASSWORD: P4ssWord
-      MYSQL_DATABASE: MarketPlace
-      MYSQL_USER: adm
-      MYSQL_PASSWORD: AdmP4ssWord
-    ports:
-      - '3306:3306'
+      - MYSQL_USER=${DATABASE_USER}
+      - MYSQL_PASSWORD=${DATABASE_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${DATABASE_PASSWORD_ADM}
+      - MYSQL_DATABASE=${DATABASE_NAME}
     networks:
-      - cqrs_network
+      - challenge
+
+  api:
+    image: ${DOCKER_HUB_USERNAME}/${DOCKER_HUB_IMAGE}
+    ports:
+      - "8080:8080"
+    restart: on-failure
+    depends_on:
+      - database
+    networks:
+      - challenge
+    environment:
+      - DATABASE_SERVER_URL=${DATABASE_SERVER_URL}
+      - DATABASE_NAME=${DATABASE_NAME}
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+
+volumes:
+  database:
 
 networks:
-  cqrs_network:
+  challenge:
     driver: bridge
-    external: false

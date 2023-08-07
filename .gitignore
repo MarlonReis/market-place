@@ -3,3 +3,5 @@ target/
 .mvn/
 .DS_Store
 .idea/
+*.env
+.env
