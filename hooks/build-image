@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+echo "CLEAN PROJECT"
+echo "------------------------------------------------------------------------"
+mvn clean
+
+echo "REMOVE OLD IMAGE VERSION"
+echo "------------------------------------------------------------------------"
+docker rmi $(docker images --filter=reference="market-place:*" -q)
+
+echo "BUILDING NEW IMAGE"
+echo "------------------------------------------------------------------------"
+mvn spring-boot:build-image -DskipTests

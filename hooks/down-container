@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
-echo "CLEANING AND TEST APPLICATION"
+echo "DOWN APPLICATION"
 echo "------------------------------------------------------------------------"
-mvn clean test
+docker-compose --env-file ./dev.env down

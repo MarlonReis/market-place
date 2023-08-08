@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   database:
-    image: mysql:5.7
+    image: mysql
     container_name: service_database
     ports:
       - "3306:3306"
@@ -12,17 +12,18 @@ services:
       - MYSQL_ROOT_PASSWORD=${DATABASE_PASSWORD_ADM}
       - MYSQL_DATABASE=${DATABASE_NAME}
     networks:
-      - challenge
+      - market-place
 
   api:
-    image: ${DOCKER_HUB_USERNAME}/${DOCKER_HUB_IMAGE}
+    image: ${APPLICATION_DOCKER_IMAGE}
+    container_name: application-market-place
     ports:
-      - "8080:8080"
+      - "${APPLICATION_PORT}:8080"
     restart: on-failure
     depends_on:
       - database
     networks:
-      - challenge
+      - market-place
     environment:
       - DATABASE_SERVER_URL=${DATABASE_SERVER_URL}
       - DATABASE_NAME=${DATABASE_NAME}
@@ -33,5 +34,5 @@ volumes:
   database:
 
 networks:
-  challenge:
+  market-place:
     driver: bridge
