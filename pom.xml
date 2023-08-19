@@ -236,7 +236,6 @@
                 <version>1.0.9</version>
                 <configuration>
                     <directory>hooks</directory>
-                    <command>pre-commit</command>
                 </configuration>
             </plugin>
         </plugins>
