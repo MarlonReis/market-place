@@ -236,6 +236,7 @@
                 <version>1.0.9</version>
                 <configuration>
                     <directory>husky</directory>
+                    <command>pre-commit</command>
                 </configuration>
             </plugin>
         </plugins>
