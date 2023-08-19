@@ -4,8 +4,8 @@ import br.com.market.place.domain.shared.boundary.AddressInputBoundary;
 import jakarta.validation.constraints.NotNull;
 
 public record CreateCardInputBoundary(
-        @NotNull(message = "Attribute cardPan is required!")
-        String cardPan,
+        @NotNull(message = "Attribute cardNumber is required!")
+        String cardNumber,
         @NotNull(message = "Attribute amount is required!")
         String amount,
         @NotNull(message = "Attribute currencyType is required!")

@@ -36,7 +36,7 @@ public class LegalService implements LegalCustomerService {
             logger.info("Create a new legal customer!");
         } catch (DataIntegrityViolationException ex) {
             logger.error("Error when try create customer {}", ex.getMessage());
-            throw new CreateException("E-mail or document need to be unique!");
+            throw new CreateException("E-mail or document needs to be unique!");
         }
     }
 

@@ -6,7 +6,7 @@ import br.com.market.place.domain.payment.boundary.CreateCardInputBoundary;
 import br.com.market.place.domain.payment.boundary.ReadBilletOutputBoundary;
 import br.com.market.place.domain.payment.boundary.ReadCredCardOutputBoundary;
 import br.com.market.place.domain.payment.service.BilletPaymentService;
-import br.com.market.place.domain.payment.service.CredCardPaymentService;
+import br.com.market.place.domain.payment.service.CreditCardPaymentService;
 import br.com.market.place.domain.payment.service.PaymentService;
 import br.com.market.place.domain.payment.value.PaymentId;
 import br.com.market.place.domain.shared.boundary.ResponseBoundary;
@@ -21,10 +21,10 @@ import java.util.Set;
 @RequestMapping("/v1/api/payment")
 public class PaymentController {
     private final BilletPaymentService billetService;
-    private final CredCardPaymentService credCardService;
+    private final CreditCardPaymentService credCardService;
     private final PaymentService paymentService;
 
-    public PaymentController(BilletPaymentService billetService, CredCardPaymentService credCardService, PaymentService paymentService) {
+    public PaymentController(BilletPaymentService billetService, CreditCardPaymentService credCardService, PaymentService paymentService) {
         this.billetService = billetService;
         this.credCardService = credCardService;
         this.paymentService = paymentService;
@@ -44,7 +44,7 @@ public class PaymentController {
     }
 
 
-    @PostMapping("/cred-card")
+    @PostMapping("/credit-card")
     public ResponseEntity<?> createCredCard(@RequestHeader("x-customer-id") String customerId,
                                             @Valid @RequestBody CreateCardInputBoundary data) {
         credCardService.create(new CustomerId(customerId), data);
@@ -52,7 +52,7 @@ public class PaymentController {
     }
 
 
-    @GetMapping("/cred-card/{customerId}")
+    @GetMapping("/credit-card/{customerId}")
     public ResponseEntity<ResponseBoundary<Set<ReadCredCardOutputBoundary>>> findCredCardPaymentByCustomerId(@PathVariable("customerId") String id) {
         var response = credCardService.findCredCardPaymentByCustomerId(new CustomerId(id));
         return ResponseEntity.ok(new ResponseBoundary<>(response, true));

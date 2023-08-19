@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CredCardTest {
     private Address address;
-    private CredCard credCard;
+    private CreditCard credCard;
 
     @BeforeEach
     void setUp() {
@@ -109,7 +109,7 @@ class CredCardTest {
     @EnumSource(names = {"FAIL", "CANCELED", "EXPIRED", "REVERSED"})
     void shouldThrowPaymentExceptionWhenTryCancelWithStatus(PaymentStatus status) {
         CancelPaymentService cancelPaymentService = Mockito.mock(CancelPaymentService.class);
-        Payment payment = CredCard.Builder.build().now();
+        Payment payment = CreditCard.Builder.build().now();
         payment.setStatus(status);
 
         var exception = assertThrows(PaymentException.class, () -> payment.cancelPayment(cancelPaymentService));
@@ -121,12 +121,12 @@ class CredCardTest {
     @EnumSource(names = {"FAIL", "CANCELED", "EXPIRED", "REVERSED","PAID_OUT"})
     void shouldThrowPaymentExceptionWhenTryPayWithStatus(PaymentStatus status) {
         RunPaymentService service = Mockito.mock(RunPaymentService.class);
-        Payment payment = CredCard.Builder.build().now();
+        Payment payment = CreditCard.Builder.build().now();
         payment.setStatus(status);
 
         var exception = assertThrows(PaymentException.class, () -> payment.pay(service));
 
-        assertThat(exception.getMessage(), Matchers.is("Cannot run cred card payment with status different of pending!"));
+        assertThat(exception.getMessage(), Matchers.is("Cannot run credit card payment with status different of pending!"));
     }
 
 

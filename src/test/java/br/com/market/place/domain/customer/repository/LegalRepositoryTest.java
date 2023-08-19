@@ -4,7 +4,7 @@ import br.com.market.place.domain.customer.entity.Customer;
 import br.com.market.place.domain.customer.entity.Legal;
 import br.com.market.place.factory.CustomerEntityMockFactory;
 import br.com.market.place.domain.customer.value.*;
-import br.com.market.place.domain.payment.entity.CredCard;
+import br.com.market.place.domain.payment.entity.CreditCard;
 import br.com.market.place.domain.payment.repository.PaymentRepository;
 import br.com.market.place.domain.payment.value.CardPan;
 import br.com.market.place.domain.shared.value.Address;
@@ -111,7 +111,7 @@ class LegalRepositoryTest {
                 withStreet("Baker Street").withNumber("221").
                 withComponent("B").withZipCode("37540232").now();
 
-        CredCard credCard = CredCard.Builder.build().
+        CreditCard credCard = CreditCard.Builder.build().
                 withStatusPending().
                 withCardPan(new CardPan("2720339563597456")).
                 withAmount(new Currency("10.0", "BRL")).

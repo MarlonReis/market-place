@@ -5,9 +5,9 @@ import br.com.market.place.domain.customer.repository.CustomerRepository;
 import br.com.market.place.domain.customer.value.CustomerId;
 import br.com.market.place.domain.payment.boundary.CreateCardInputBoundary;
 import br.com.market.place.domain.payment.boundary.ReadCredCardOutputBoundary;
-import br.com.market.place.domain.payment.entity.CredCard;
+import br.com.market.place.domain.payment.entity.CreditCard;
 import br.com.market.place.domain.payment.repository.PaymentRepository;
-import br.com.market.place.domain.payment.service.CredCardPaymentService;
+import br.com.market.place.domain.payment.service.CreditCardPaymentService;
 import br.com.market.place.domain.payment.value.CardPan;
 import br.com.market.place.domain.shared.exception.CreateException;
 import br.com.market.place.domain.shared.exception.NotFoundException;
@@ -21,13 +21,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Set;
 
 @Service
-public class CredCardService implements CredCardPaymentService {
-    private final Logger logger = LoggerFactory.getLogger(CredCardService.class);
+public class CreditCardService implements CreditCardPaymentService {
+    private final Logger logger = LoggerFactory.getLogger(CreditCardService.class);
     private final CustomerRepository customerRepository;
     private final PaymentRepository paymentRepository;
 
     @Autowired
-    public CredCardService(CustomerRepository customerRepo, PaymentRepository paymentRepo) {
+    public CreditCardService(CustomerRepository customerRepo, PaymentRepository paymentRepo) {
         this.customerRepository = customerRepo;
         this.paymentRepository = paymentRepo;
     }
@@ -35,11 +35,11 @@ public class CredCardService implements CredCardPaymentService {
     @Override
     public void create(CustomerId id, CreateCardInputBoundary data) {
         Customer customer = customerRepository.findCustomerById(id)
-                .orElseThrow(() -> new NotFoundException("Cannot be possible to find customer by id"));
-        var credCard = CredCard.Builder.build()
+                .orElseThrow(() -> new NotFoundException("It wasn't possible to find customer by id!"));
+        var credCard = CreditCard.Builder.build()
                 .withCustomer(customer)
                 .withAddress(data.address().toEntity())
-                .withCardPan(new CardPan(data.cardPan()))
+                .withCardPan(new CardPan(data.cardNumber()))
                 .withAmount(new Currency(data.amount(), data.currencyType()))
                 .withStatusPending()
                 .now();
@@ -54,10 +54,10 @@ public class CredCardService implements CredCardPaymentService {
     @Override
     @Transactional(readOnly = true)
     public Set<ReadCredCardOutputBoundary> findCredCardPaymentByCustomerId(CustomerId id) {
-        var response = paymentRepository.findCredCardByCustomerId(id).map(CredCard::toReadCredCardOutputBoundary).toSet();
+        var response = paymentRepository.findCredCardByCustomerId(id).map(CreditCard::toReadCredCardOutputBoundary).toSet();
 
         if (response.isEmpty()){
-            throw new NotFoundException("Cannot be possible to find cred card payment by customer!");
+            throw new NotFoundException("It wasn't possible to find credit card payment by customer!");
         }
         return response;
     }

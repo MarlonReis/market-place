@@ -13,15 +13,15 @@ import br.com.market.place.domain.shared.value.Currency;
 import jakarta.persistence.Entity;
 
 @Entity
-public class CredCard extends Payment {
+public class CreditCard extends Payment {
     private CardPan cardPan;
 
-    public CredCard(CardPan cardPan, Currency amount, Address address, PaymentStatus status, Customer customer) {
+    public CreditCard(CardPan cardPan, Currency amount, Address address, PaymentStatus status, Customer customer) {
         super(amount, address, status, customer);
         this.cardPan = cardPan;
     }
 
-    protected CredCard() {
+    protected CreditCard() {
         super();
     }
 
@@ -32,7 +32,7 @@ public class CredCard extends Payment {
             PaymentStatus status = paymentService.executePayment(this);
             setStatus(status);
         } else {
-            throw new PaymentException("Cannot run cred card payment with status different of pending!");
+            throw new PaymentException("Cannot run credit card payment with status different of pending!");
         }
     }
 
@@ -69,10 +69,10 @@ public class CredCard extends Payment {
 
 
     public static final class Builder {
-        private CredCard credCard;
+        private CreditCard credCard;
 
         private Builder() {
-            credCard = new CredCard();
+            credCard = new CreditCard();
         }
 
         public static Builder build() {
@@ -106,8 +106,8 @@ public class CredCard extends Payment {
         }
 
 
-        public CredCard now() {
-            return new CredCard(
+        public CreditCard now() {
+            return new CreditCard(
                     credCard.getCardPan(),
                     credCard.getAmount(),
                     credCard.getAddress(),

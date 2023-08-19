@@ -4,9 +4,9 @@ import br.com.market.place.domain.customer.entity.Legal;
 import br.com.market.place.factory.CustomerEntityMockFactory;
 import br.com.market.place.domain.customer.repository.CustomerRepository;
 import br.com.market.place.domain.payment.boundary.CreateCardInputBoundary;
-import br.com.market.place.domain.payment.entity.CredCard;
+import br.com.market.place.domain.payment.entity.CreditCard;
 import br.com.market.place.domain.payment.repository.PaymentRepository;
-import br.com.market.place.domain.payment.service.CredCardPaymentService;
+import br.com.market.place.domain.payment.service.CreditCardPaymentService;
 import br.com.market.place.domain.payment.value.CardPan;
 import br.com.market.place.domain.shared.boundary.AddressInputBoundary;
 import br.com.market.place.domain.shared.exception.CreateException;
@@ -36,11 +36,11 @@ import static org.testcontainers.shaded.org.hamcrest.MatcherAssert.assertThat;
 @DataJpaTest()
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
-@Import({CredCardService.class})
+@Import({CreditCardService.class})
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class CredCardServiceTest {
     @Autowired
-    private CredCardPaymentService service;
+    private CreditCardPaymentService service;
 
     @SpyBean
     private CustomerRepository customerRepository;
@@ -70,9 +70,9 @@ class CredCardServiceTest {
 
         service.create(legal.getId(), inputBoundary);
 
-        ArgumentCaptor<CredCard> argument = ArgumentCaptor.forClass(CredCard.class);
+        ArgumentCaptor<CreditCard> argument = ArgumentCaptor.forClass(CreditCard.class);
         Mockito.verify(paymentRepository).saveAndFlush(argument.capture());
-        CredCard credCard = argument.getValue();
+        CreditCard credCard = argument.getValue();
 
         assertThat(credCard.getId(), Matchers.notNullValue());
         assertThat(credCard.getCreateAt(), Matchers.notNullValue());
@@ -83,7 +83,7 @@ class CredCardServiceTest {
     @Test
     void shouldThrowsNotFoundExceptionWhenNotFoundCustomerById() {
         var exception = assertThrows(NotFoundException.class, () -> service.create(legal.getId(), inputBoundary));
-        assertThat(exception.getData().message(), Matchers.is("Cannot be possible to find customer by id"));
+        assertThat(exception.getData().message(), Matchers.is("It wasn't possible to find customer by id!"));
     }
 
     @Test

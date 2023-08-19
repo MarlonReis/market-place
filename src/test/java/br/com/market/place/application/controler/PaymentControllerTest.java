@@ -7,7 +7,7 @@ import br.com.market.place.factory.PaymentEntityMockFactory;
 import br.com.market.place.domain.customer.repository.CustomerRepository;
 import br.com.market.place.domain.customer.value.CustomerId;
 import br.com.market.place.domain.payment.entity.Billet;
-import br.com.market.place.domain.payment.entity.CredCard;
+import br.com.market.place.domain.payment.entity.CreditCard;
 import br.com.market.place.domain.payment.repository.PaymentRepository;
 import br.com.market.place.domain.payment.service.PaymentService;
 import br.com.market.place.domain.payment.value.PaymentId;
@@ -45,7 +45,7 @@ class PaymentControllerTest {
     private PaymentService paymentService;
     private Customer customer;
     private Billet billet;
-    private CredCard credCard;
+    private CreditCard credCard;
 
     @BeforeEach
     void setUp() {
@@ -171,7 +171,7 @@ class PaymentControllerTest {
                 .andDo(print()).
                 andExpect(status().isNotFound()).
                 andExpect(content().contentType(APPLICATION_JSON)).
-                andExpect(jsonPath("$.data.message").value("Cannot be possible to find billets payment by customer!")).
+                andExpect(jsonPath("$.data.message").value("It wasn't possible to find credit card payment by customer!")).
                 andExpect(jsonPath("$.success").value(false));
     }
 
@@ -189,13 +189,13 @@ class PaymentControllerTest {
     @Test
     void shouldReturn201WhenCreateCredCardPayment() throws Exception {
         customerRepository.saveAndFlush(customer);
-        mockMvc.perform(post("/v1/api/payment/cred-card")
+        mockMvc.perform(post("/v1/api/payment/credit-card")
                         .header("x-customer-id", customer.getId())
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
                         .content("""
                                 {
-                                  "cardPan": "5273548390118161",
+                                  "cardNumber": "5273548390118161",
                                   "amount": "500.00",
                                   "currencyType": "GBP",
                                   "address": {
@@ -212,12 +212,12 @@ class PaymentControllerTest {
 
     @Test
     void shouldReturn204WhenTryCreateCredCardPaymentAndNotFoundCustomerById() throws Exception {
-        mockMvc.perform(post("/v1/api/payment/cred-card")
+        mockMvc.perform(post("/v1/api/payment/credit-card")
                         .header("x-customer-id", new CustomerId())
                         .contentType(APPLICATION_JSON).accept(APPLICATION_JSON)
                         .content("""
                                 {
-                                  "cardPan": "5273548390118161",
+                                  "cardNumber": "5273548390118161",
                                   "amount": "500.00",
                                   "currencyType": "GBP",
                                   "address": {
@@ -231,17 +231,17 @@ class PaymentControllerTest {
                                 """))
                 .andExpect(status().isNotFound()).
                 andExpect(content().contentType(APPLICATION_JSON)).
-                andExpect(jsonPath("$.data.message").value("Cannot be possible to find customer by id")).
+                andExpect(jsonPath("$.data.message").value("It wasn't possible to find customer by id!")).
                 andExpect(jsonPath("$.success").value(false));
     }
 
     @Test
     void shouldReturn400WhenNotSetCustomerIdInTheHeader() throws Exception {
-        mockMvc.perform(post("/v1/api/payment/cred-card")
+        mockMvc.perform(post("/v1/api/payment/credit-card")
                         .contentType(APPLICATION_JSON).accept(APPLICATION_JSON)
                         .content("""
                                 {
-                                  "cardPan": "5273548390118161",
+                                  "cardNumber": "5273548390118161",
                                   "amount": "500.00",
                                   "currencyType": "GBP",
                                   "address": {
@@ -261,7 +261,7 @@ class PaymentControllerTest {
 
     @Test
     void shouldReturn400TryCreateCredCardPaymentWithoutBody() throws Exception {
-        mockMvc.perform(post("/v1/api/payment/cred-card")
+        mockMvc.perform(post("/v1/api/payment/credit-card")
                         .contentType(APPLICATION_JSON).accept(APPLICATION_JSON)
                         .header("x-customer-id", new CustomerId())).
                 andExpect(status().isBadRequest()).
@@ -272,7 +272,7 @@ class PaymentControllerTest {
 
     @Test
     void shouldReturn400WhenTryCreateCredCardPaymentWithFieldNull() throws Exception {
-        mockMvc.perform(post("/v1/api/payment/cred-card")
+        mockMvc.perform(post("/v1/api/payment/credit-card")
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
                         .header("x-customer-id", new CustomerId())
@@ -291,7 +291,7 @@ class PaymentControllerTest {
                                 """)).
                 andExpect(status().isBadRequest()).
                 andExpect(content().contentType(APPLICATION_JSON)).
-                andExpect(jsonPath("$.data.message").value("Attribute cardPan is required!")).
+                andExpect(jsonPath("$.data.message").value("Attribute cardNumber is required!")).
                 andExpect(jsonPath("$.success").value(false));
     }
 
@@ -299,7 +299,7 @@ class PaymentControllerTest {
     void shouldReturn200WhenFindCredCardPaymentsByCustomerId() throws Exception {
         paymentRepository.saveAndFlush(credCard);
 
-        mockMvc.perform(get("/v1/api/payment/cred-card/{customerId}", customer.getId())
+        mockMvc.perform(get("/v1/api/payment/credit-card/{customerId}", customer.getId())
                         .contentType(APPLICATION_JSON).accept(APPLICATION_JSON))
                 .andDo(print()).
                 andExpect(status().isOk()).
@@ -316,13 +316,14 @@ class PaymentControllerTest {
     }
 
     @Test
-    void shouldReturn204WhenNotFindCredCardPaymentsByCustomerId() throws Exception {
-        mockMvc.perform(get("/v1/api/payment/cred-card/{customerId}", new CustomerId())
+    void shouldReturn204WhenNotFindCreditCardPaymentsByCustomerId() throws Exception {
+        mockMvc.perform(get("/v1/api/payment/credit-card/{customerId}", new CustomerId())
                         .contentType(APPLICATION_JSON).accept(APPLICATION_JSON))
                 .andDo(print()).
                 andExpect(status().isNotFound()).
                 andExpect(jsonPath("$.success").value(false)).
-                andExpect(jsonPath("$.data.message").value("Cannot be possible to find cred card payment by customer!"));
+                andExpect(jsonPath("$.data.message").
+                        value("It wasn't possible to find credit card payment by customer!"));
     }
 
     @Test
@@ -381,7 +382,7 @@ class PaymentControllerTest {
                         .accept(APPLICATION_JSON))
                 .andExpect(status().isNotFound()).
                 andExpect(jsonPath("$.success").value(false)).
-                andExpect(jsonPath("$.data.message").value("Cannot be found payment by id"));
+                andExpect(jsonPath("$.data.message").value("It wasn't possible to find payment by id!"));
     }
 
     @Test

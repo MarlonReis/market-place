@@ -71,7 +71,7 @@ class LegalServiceTest {
     void shouldThrowCreateExceptionWhenDocumentOrEmailAreDuplicated() {
         service.create(inputData);
         DomainException exception = assertThrows(CreateException.class, () -> service.create(inputData));
-        assertThat(exception.getMessage(), Matchers.is("E-mail or document need to be unique!"));
+        assertThat(exception.getMessage(), Matchers.is("E-mail or document needs to be unique!"));
     }
 
     @Test

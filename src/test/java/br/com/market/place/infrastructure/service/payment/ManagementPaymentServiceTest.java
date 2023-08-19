@@ -81,7 +81,7 @@ class ManagementPaymentServiceTest {
     @Test
     void shouldThrowsNotFoundExceptionWhenNotFoundPaymentById() {
         var exception = assertThrows(NotFoundException.class, () -> paymentService.pay(new PaymentId()));
-        assertThat(exception.getMessage(), Matchers.is("Cannot be found payment by id"));
+        assertThat(exception.getMessage(), Matchers.is("It wasn't possible to find payment by id!"));
     }
 
     @Test
