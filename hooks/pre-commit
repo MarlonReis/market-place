@@ -3,3 +3,5 @@
 echo "CLEANING AND TEST APPLICATION"
 echo "------------------------------------------------------------------------"
 mvn clean test
+
+# git config advice.ignoredHook false

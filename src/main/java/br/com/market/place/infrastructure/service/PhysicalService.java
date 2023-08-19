@@ -36,7 +36,7 @@ public class PhysicalService implements PhysicalCustomerService {
             logger.info("Create physical customer!");
         } catch (DataIntegrityViolationException ex) {
             logger.error("Error when create physical customer: {}", ex.getMessage());
-            throw new CreateException("Document and email need to be unique!");
+            throw new CreateException("Document and email needs to be unique!");
         }
     }
 

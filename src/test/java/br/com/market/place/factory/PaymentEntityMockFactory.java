@@ -2,7 +2,7 @@ package br.com.market.place.factory;
 
 import br.com.market.place.domain.customer.entity.Customer;
 import br.com.market.place.domain.payment.entity.Billet;
-import br.com.market.place.domain.payment.entity.CredCard;
+import br.com.market.place.domain.payment.entity.CreditCard;
 import br.com.market.place.domain.payment.value.CardPan;
 import br.com.market.place.domain.shared.value.Address;
 import br.com.market.place.domain.shared.value.Currency;
@@ -16,8 +16,8 @@ public class PaymentEntityMockFactory {
                 .withComponent("B").withZipCode("37540232").now();
     }
 
-    public CredCard credCardFactory(Customer customer) {
-        return CredCard.Builder.build()
+    public CreditCard credCardFactory(Customer customer) {
+        return CreditCard.Builder.build()
                 .withStatusPending()
                 .withCardPan(new CardPan("2720339563597456"))
                 .withAmount(new Currency("10.0", "BRL"))

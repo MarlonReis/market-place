@@ -1,0 +1,52 @@
+### CREATE BILLET PAYMENT
+POST http://localhost:8080/v1/api/payment/billets
+x-customer-id: 0183b785-9ac8-47d3-8269-dbd07b46e28c
+Content-Type: application/json
+
+{
+  "amount": "281",
+  "currencyType": "GBP",
+  "address": {
+    "city": "Auertown",
+    "street": "Garry Bashirian",
+    "number": "327",
+    "component": "APT 46",
+    "zipCode": "37540000"
+  }
+}
+
+### CREATE CRED CARD PAYMENT
+POST http://localhost:8080/v1/api/payment/cred-card
+x-customer-id: 1993faf6-2fad-4ba7-a3ee-2dbbcab67a9b
+Content-Type: application/json
+
+{
+  "cardNumber": "5273548390118161",
+  "amount": "875",
+  "currencyType": "GBP",
+  "address": {
+    "city": "Roseville",
+    "street": "Nicole Wiza",
+    "number": "189",
+    "component": "APT 403",
+    "zipCode": "37540000"
+  }
+}
+
+### FIND CRED CARD PAYMENT BY CUSTOMER ID
+GET http://localhost:8080/v1/api/payment/cred-card/1993faf6-2fad-4ba7-a3ee-2dbbcab67a9b
+Content-Type: application/json
+
+### FIND BILLET PAYMENT BY CUSTOMER ID
+GET http://localhost:8080/v1/api/payment/cred-card/1993faf6-2fad-4ba7-a3ee-2dbbcab67a9b
+Content-Type: application/json
+
+### RUN PAYMENT
+POST http://localhost:8080/v1/api/payment/pay
+x-payment-id: c77f95da-ec66-43bd-b79e-7165e2b6dfed
+Content-Type: application/json
+
+### CANCEL PAYMENT
+POST http://localhost:8080/v1/api/payment/cancel
+x-payment-id: c77f95da-ec66-43bd-b79e-7165e2b6dfed
+Content-Type: application/json

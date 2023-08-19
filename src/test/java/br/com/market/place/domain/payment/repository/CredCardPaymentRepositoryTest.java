@@ -4,7 +4,7 @@ import br.com.market.place.domain.customer.entity.Physical;
 import br.com.market.place.factory.CustomerEntityMockFactory;
 import br.com.market.place.factory.PaymentEntityMockFactory;
 import br.com.market.place.domain.payment.constant.PaymentStatus;
-import br.com.market.place.domain.payment.entity.CredCard;
+import br.com.market.place.domain.payment.entity.CreditCard;
 import br.com.market.place.domain.payment.service.RunPaymentService;
 import br.com.market.place.domain.payment.value.CardPan;
 import br.com.market.place.domain.shared.value.Address;
@@ -27,7 +27,7 @@ class CredCardPaymentRepositoryTest {
     @Autowired
     private PaymentRepository repository;
     private Address address;
-    private CredCard credCard;
+    private CreditCard credCard;
     private Physical physical;
 
     @BeforeEach

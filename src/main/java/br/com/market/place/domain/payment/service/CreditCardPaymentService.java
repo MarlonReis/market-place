@@ -6,7 +6,7 @@ import br.com.market.place.domain.payment.boundary.ReadCredCardOutputBoundary;
 
 import java.util.Set;
 
-public interface CredCardPaymentService {
+public interface CreditCardPaymentService {
     void create(CustomerId id, CreateCardInputBoundary data);
 
     Set<ReadCredCardOutputBoundary> findCredCardPaymentByCustomerId(CustomerId id);

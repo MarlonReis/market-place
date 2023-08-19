@@ -59,7 +59,7 @@ public class BilletService implements BilletPaymentService {
     public Set<ReadBilletOutputBoundary> findBilletByCustomerId(CustomerId customerId) {
         var response = paymentRepository.findBilletByCustomerId(customerId).map(Billet::toReadBilletOutputBoundary).toSet();
         if (response.isEmpty()){
-            throw new NotFoundException("Cannot be possible to find billets payment by customer!");
+            throw new NotFoundException("It wasn't possible to find credit card payment by customer!");
         }
         return response;
     }

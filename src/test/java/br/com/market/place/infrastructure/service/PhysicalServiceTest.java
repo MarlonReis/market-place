@@ -79,7 +79,7 @@ class PhysicalServiceTest {
     void shouldThrowCreateExceptionWhenDocumentOrEmailIsDuplicated() {
         service.create(inputBoundary);
         var exception = assertThrows(CreateException.class, () -> service.create(inputBoundary));
-        assertThat(exception.getMessage(), Matchers.is("Document and email need to be unique!"));
+        assertThat(exception.getMessage(), Matchers.is("Document and email needs to be unique!"));
     }
 
     @Test

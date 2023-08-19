@@ -10,8 +10,7 @@ public class Document {
     private String document;
     private DocumentType documentType;
 
-    protected Document() {
-    }
+    protected Document() {}
 
     public Document(String document, DocumentType type) {
         if (document == null || document.isEmpty() || type == null) {

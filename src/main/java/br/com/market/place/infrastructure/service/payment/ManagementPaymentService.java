@@ -33,7 +33,7 @@ public class ManagementPaymentService implements PaymentService {
 
     private Payment findPaymentById(PaymentId id) {
         return paymentRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Cannot be found payment by id"));
+                .orElseThrow(() -> new NotFoundException("It wasn't possible to find payment by id!"));
     }
 
     @Override
