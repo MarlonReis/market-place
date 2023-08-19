@@ -76,7 +76,7 @@ This project uses Rest protocol and returns data in json format.
 > A legal customer represents a company!
 > The attributes "email" and "cnpj" are unique!
 > 
-> ```http request
+> ```
 > POST /v1/api/customer/legal
 >  Content-Type: application/json
 >  Accept: application/json
@@ -121,7 +121,7 @@ If your request returns a status code different from 201, your request has faile
 > #### CREATE PHYSICAL CUSTOMER
 > The attributes "email" and "document" are unique!
 >
-> ```http request
+> ```
 >   POST /v1/api/customer/physical
 >   Content-Type: application/json
 >   Accept: application/json
@@ -166,7 +166,7 @@ If your request returns a status code different from 201, your request has faile
 > Find Legal as well as physical customer, but the difference between both is that for legal customers we use "CNPJ" and for physical ones we might
 > use "CPF" or "RG".
 >
-> ```http request
+> ```
 >   GET /v1/api/customer/physical/document/<CUSTOMER'S DOCUMENT>/<KIND OF DOCUMENT>
 >   Content-Type: application/json
 >   Accept: application/json
@@ -201,7 +201,7 @@ If your request returns a status code different from 200, your cannot find the c
 > This represents a billet customer transaction! 
 > We can work with different types of currencies like BRL, USD and GBP in this request!
 >
-> ```http request
+> ```
 >   POST /v1/api/payment/billets
 >   x-customer-id: <CUSTOMER ID>
 >   Content-Type: application/json
@@ -233,7 +233,7 @@ If your request returns a status code different from 200, your cannot find the c
 > Here we can work with different type of currencies like BRL, USD and GBP too!
 > In the real world we do not use the card pan decrypted, but here we used it as an example!
 > 
-> ```http request
+> ```
 >   POST /v1/api/payment/credit-card
 >   x-customer-id: <CUSTOMER ID>
 >   Content-Type: application/json
@@ -264,7 +264,7 @@ If your request returns a status code different from 200, your cannot find the c
 > #### FIND CREDIT CARD PAYMENT BY CUSTOMER ID 
 > It returns all customer credit card payments
 >
-> ```http request
+> ```
 >   POST /v1/api/payment/credit-card/<CUSTOMER ID>
 >   Content-Type: application/json
 > ```
@@ -308,7 +308,7 @@ If your request returns a status code different from 200, your cannot find the c
 > #### FIND BILLET PAYMENT BY CUSTOMER ID
 > It return all customer billet payments
 >
-> ```http request
+> ```
 >   POST /v1/api/payment/billets/<CUSTOMER ID>
 >   Content-Type: application/json
 > ```
@@ -352,7 +352,7 @@ If your request returns a status code different from 200, your cannot find the c
 > #### RUN PAYMENT
 > It's run payment either credit card or billet.
 >
-> ```http request
+> ```
 >   POST /v1/api/payment/pay
 >   x-payment-id: <PAYMENT ID>
 >   Content-Type: application/json
@@ -369,7 +369,7 @@ If your request returns a status code different from 200, your cannot find the c
 > #### RUN PAYMENT
 > It's cancel payment either credit card or billet.
 >
-> ```http request
+> ```
 >   POST /v1/api/payment/cancel
 >   x-payment-id: <PAYMENT ID>
 >   Content-Type: application/json
