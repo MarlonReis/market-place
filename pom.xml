@@ -235,7 +235,7 @@
                 <artifactId>jhusky</artifactId>
                 <version>1.0.9</version>
                 <configuration>
-                    <directory>husky</directory>
+                    <directory>hooks</directory>
                     <command>pre-commit</command>
                 </configuration>
             </plugin>
