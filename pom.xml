@@ -230,28 +230,13 @@
                     </excludedMethods>
                 </configuration>
             </plugin>
-            
             <plugin>
-                <groupId>com.rudikershaw.gitbuildhook</groupId>
-                <artifactId>git-build-hook-maven-plugin</artifactId>
-                <version>3.4.1</version>
+                <groupId>io.github.dathin</groupId>
+                <artifactId>jhusky</artifactId>
+                <version>1.0.9</version>
                 <configuration>
-                    <installHooks>
-                        <pre-commit>hooks/pre-commit</pre-commit>
-                    </installHooks>
-                    <gitConfig>
-                        <core.hooksPath>hooks/</core.hooksPath>
-                        <custom.configuration>true</custom.configuration>
-                    </gitConfig>
+                    <directory>husky</directory>
                 </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>initialize</goal>
-                            <goal>configure</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
