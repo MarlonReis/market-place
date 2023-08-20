@@ -229,6 +229,7 @@
                     <directory>hooks</directory>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
 
