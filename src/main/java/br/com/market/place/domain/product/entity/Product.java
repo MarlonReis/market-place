@@ -34,6 +34,14 @@ public class Product {
         this.updateAt = new UpdateAt();
     }
 
+    public void subtract(Quantity quantity) {
+        setQuantity(getQuantity().subtract(quantity));
+    }
+
+    public void add(Quantity quantity) {
+        setQuantity(getQuantity().add(quantity));
+    }
+
     public ProductId getId() {
         return id;
     }

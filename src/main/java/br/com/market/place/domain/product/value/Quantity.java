@@ -48,4 +48,9 @@ public class Quantity {
         }
         return false;
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(quantity);
+    }
 }
