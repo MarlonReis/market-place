@@ -1,11 +1,13 @@
 package br.com.market.place.domain.product.value;
 
 import br.com.market.place.domain.shared.validator.ValueObjectValidator;
+import jakarta.persistence.Embeddable;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 
 import java.util.Objects;
 
+@Embeddable
 public class Title {
     @NotEmpty(message = "Attribute title is required!")
     @NotNull(message = "Attribute title is required!")

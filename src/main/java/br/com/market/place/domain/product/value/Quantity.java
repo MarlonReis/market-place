@@ -1,11 +1,12 @@
 package br.com.market.place.domain.product.value;
 
 import br.com.market.place.domain.shared.exception.InvalidDataException;
-import net.sf.oval.constraint.NotNull;
+import jakarta.persistence.Embeddable;
 
 import java.math.BigInteger;
 import java.util.Objects;
 
+@Embeddable
 public class Quantity {
     private BigInteger quantity;
 

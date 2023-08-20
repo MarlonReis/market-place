@@ -8,7 +8,6 @@ import br.com.market.place.domain.shared.value.CreateAt;
 import br.com.market.place.domain.shared.value.UpdateAt;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Polymorphism;
 import org.hibernate.annotations.PolymorphismType;
 
