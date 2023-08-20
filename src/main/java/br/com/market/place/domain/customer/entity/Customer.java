@@ -8,15 +8,11 @@ import br.com.market.place.domain.shared.value.CreateAt;
 import br.com.market.place.domain.shared.value.UpdateAt;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import org.hibernate.annotations.Polymorphism;
-import org.hibernate.annotations.PolymorphismType;
-
 import java.util.Objects;
 import java.util.Set;
 
 
 @Entity
-@Polymorphism(type = PolymorphismType.EXPLICIT)
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(indexes = {
         @Index(columnList = "document", name = "document_index", unique = true),

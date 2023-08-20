@@ -10,14 +10,11 @@ import br.com.market.place.domain.shared.value.CreateAt;
 import br.com.market.place.domain.shared.value.Currency;
 import br.com.market.place.domain.shared.value.UpdateAt;
 import jakarta.persistence.*;
-import org.hibernate.annotations.Polymorphism;
-import org.hibernate.annotations.PolymorphismType;
 
 import java.util.Objects;
 
 
 @Entity
-@Polymorphism(type = PolymorphismType.EXPLICIT)
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Payment {
     @EmbeddedId
