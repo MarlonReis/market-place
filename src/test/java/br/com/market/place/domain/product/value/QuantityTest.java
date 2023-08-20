@@ -73,6 +73,7 @@ class QuantityTest {
     void shouldReturnTrueWhenBothQuantityAreEquals() {
         Quantity quantity = new Quantity(10);
 
+        assertThat(quantity.hashCode(), Matchers.is(new Quantity(10).hashCode()));
         assertThat(quantity.equals(new Quantity(10)), Matchers.is(true));
         assertThat(quantity.equals(new Quantity(11)), Matchers.is(false));
         assertThat(quantity.equals(new Object()), Matchers.is(false));

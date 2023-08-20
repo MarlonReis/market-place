@@ -1,6 +1,6 @@
 package br.com.market.place.domain.customer.value;
 
-import br.com.market.place.domain.shared.validator.ValueObjectValidator;
+import br.com.market.place.domain.shared.validator.DomainValidator;
 import jakarta.persistence.Embeddable;
 import net.sf.oval.constraint.MatchPattern;
 import net.sf.oval.constraint.NotNull;
@@ -21,7 +21,7 @@ public final class Telephone {
 
     public Telephone(String telephone) {
         this.telephone = telephone;
-        new ValueObjectValidator().validate(this);
+        new DomainValidator().validate(this);
     }
 
     public String telephone() {

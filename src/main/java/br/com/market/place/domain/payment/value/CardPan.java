@@ -1,6 +1,6 @@
 package br.com.market.place.domain.payment.value;
 
-import br.com.market.place.domain.shared.validator.ValueObjectValidator;
+import br.com.market.place.domain.shared.validator.DomainValidator;
 import jakarta.persistence.Embeddable;
 import net.sf.oval.constraint.MatchPattern;
 import net.sf.oval.constraint.NotNull;
@@ -20,7 +20,7 @@ public class CardPan {
 
     public CardPan(String card) {
         this.cardNumber = card;
-        new ValueObjectValidator().validate(this);
+        new DomainValidator().validate(this);
     }
 
     public String cardPan() {

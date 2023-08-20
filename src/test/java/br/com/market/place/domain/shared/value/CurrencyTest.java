@@ -42,6 +42,14 @@ class CurrencyTest {
     }
 
     @Test
+    void shouldReturnNewCurrencyWhenMultiplyValue() {
+        Currency currency = new Currency("10.00", "USD");
+
+        assertThat(currency.multiply(10), Matchers.is(new Currency("100.00", "USD")));
+        assertThat(currency.multiply(3), Matchers.is(new Currency("30.00", "USD")));
+    }
+
+    @Test
     void shouldThrowsCurrencyExceptionWhenTypesWereDifferent() {
         Currency currency = new Currency("10.00", "USD");
         var exception = assertThrows(CurrencyException.class, () -> currency.add(new Currency("0", "BRL")));

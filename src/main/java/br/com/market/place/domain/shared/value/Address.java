@@ -1,6 +1,6 @@
 package br.com.market.place.domain.shared.value;
 
-import br.com.market.place.domain.shared.validator.ValueObjectValidator;
+import br.com.market.place.domain.shared.validator.DomainValidator;
 import jakarta.persistence.Embeddable;
 import net.sf.oval.constraint.Digits;
 import net.sf.oval.constraint.MatchPattern;
@@ -39,7 +39,7 @@ public class Address {
         this.number = number;
         this.component = component;
         this.zipCode = zipCode == null ? null : zipCode.replaceAll("-", "");
-        new ValueObjectValidator().validate(this);
+        new DomainValidator().validate(this);
     }
 
     public String city() {

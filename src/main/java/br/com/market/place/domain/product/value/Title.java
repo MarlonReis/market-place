@@ -1,6 +1,6 @@
 package br.com.market.place.domain.product.value;
 
-import br.com.market.place.domain.shared.validator.ValueObjectValidator;
+import br.com.market.place.domain.shared.validator.DomainValidator;
 import jakarta.persistence.Embeddable;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -24,7 +24,7 @@ public class Title {
         this.title = title;
         this.description = description;
 
-        new ValueObjectValidator().validate(this);
+        new DomainValidator().validate(this);
     }
 
     public String title() {
@@ -43,6 +43,11 @@ public class Title {
                     Objects.equals(this.title, that.title);
         }
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, description);
     }
 
     @Override

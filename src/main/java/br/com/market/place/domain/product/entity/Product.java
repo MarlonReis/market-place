@@ -3,17 +3,29 @@ package br.com.market.place.domain.product.entity;
 import br.com.market.place.domain.product.value.ProductId;
 import br.com.market.place.domain.product.value.Quantity;
 import br.com.market.place.domain.product.value.Title;
+import br.com.market.place.domain.shared.validator.DomainValidator;
 import br.com.market.place.domain.shared.value.CreateAt;
+import br.com.market.place.domain.shared.value.Currency;
 import br.com.market.place.domain.shared.value.UpdateAt;
 import jakarta.persistence.*;
+import net.sf.oval.constraint.NotEmpty;
+import net.sf.oval.constraint.NotNull;
 
 @Entity
 public class Product {
     @Id
     private ProductId id;
+    @NotNull(message = "Attribute title is required!")
     private Title title;
-    private String tag;
 
+    @NotNull(message = "Attribute tag is required!")
+    @NotEmpty(message = "Attribute tag is required!")
+    private String tag;
+    @NotNull(message = "Attribute price is required!")
+    @AttributeOverrides({@AttributeOverride(name = "amount", column = @Column(name = "price"))})
+    private Currency price;
+
+    @NotNull(message = "Attribute quantity is required!")
     private Quantity quantity;
 
     @Column(updatable = false, nullable = false)
@@ -22,6 +34,17 @@ public class Product {
 
     @AttributeOverrides({@AttributeOverride(name = "date", column = @Column(name = "updateAt"))})
     private UpdateAt updateAt;
+
+    public Product() {
+    }
+
+    public Product(Title title, String tag, Currency price, Quantity quantity) {
+        this.title = title;
+        this.tag = tag;
+        this.price = price;
+        this.quantity = quantity;
+        new DomainValidator().validate(this);
+    }
 
     @PrePersist
     protected void prePersist() {
@@ -70,6 +93,13 @@ public class Product {
         return createAt;
     }
 
+    public Currency getPrice() {
+        return price;
+    }
+
+    protected void setPrice(Currency price) {
+        this.price = price;
+    }
 
     public UpdateAt getUpdateAt() {
         return updateAt;
@@ -105,8 +135,19 @@ public class Product {
             return this;
         }
 
+        public Builder withPrice(Currency currency) {
+            product.setPrice(currency);
+            return this;
+        }
+
+
         public Product now() {
-            return product;
+            return new Product(
+                    product.getTitle(),
+                    product.getTag(),
+                    product.getPrice(),
+                    product.getQuantity()
+            );
         }
     }
 }

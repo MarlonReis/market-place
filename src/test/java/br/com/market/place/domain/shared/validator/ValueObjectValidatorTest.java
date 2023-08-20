@@ -9,11 +9,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ValueObjectValidatorTest {
-    private ValueObjectValidator objectValidator;
+    private DomainValidator objectValidator;
 
     @BeforeEach
     void setUp() {
-        objectValidator = new ValueObjectValidator();
+        objectValidator = new DomainValidator();
     }
 
     @Test

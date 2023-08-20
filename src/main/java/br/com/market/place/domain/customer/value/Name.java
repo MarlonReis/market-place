@@ -1,5 +1,5 @@
 package br.com.market.place.domain.customer.value;
-import br.com.market.place.domain.shared.validator.ValueObjectValidator;
+import br.com.market.place.domain.shared.validator.DomainValidator;
 import jakarta.persistence.Embeddable;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -17,7 +17,7 @@ public class Name {
 
     public Name(String name) {
         this.name = name;
-        new ValueObjectValidator().validate(this);
+        new DomainValidator().validate(this);
     }
 
     protected Name() {

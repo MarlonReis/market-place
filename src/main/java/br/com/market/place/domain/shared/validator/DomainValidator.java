@@ -6,10 +6,10 @@ import net.sf.oval.Validator;
 
 import java.util.stream.Collectors;
 
-public class ValueObjectValidator {
+public class DomainValidator {
     private final Validator validator;
 
-    public ValueObjectValidator() {
+    public DomainValidator() {
         this.validator = new Validator();
     }
 

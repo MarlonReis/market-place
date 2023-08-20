@@ -41,6 +41,10 @@ public class Currency {
         return new Currency(amount().add(amount.amount()), amount.type());
     }
 
+    public Currency multiply(int times) {
+        return new Currency(amount.multiply(BigDecimal.valueOf(times)), type());
+    }
+
     public BigDecimal amount() {
         return amount;
     }
