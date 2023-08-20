@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+echo "CLEANING AND RUN MUTATION TESTS"
+echo "------------------------------------------------------------------------"
+mvn clean compile pitest:mutationCoverage
