@@ -2,4 +2,4 @@
 
 echo "CLEANING AND RUN MUTATION TESTS"
 echo "------------------------------------------------------------------------"
-mvn clean compile pitest:mutationCoverage
+mvn clean compile test pitest:mutationCoverage
