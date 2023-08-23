@@ -1,5 +1,6 @@
 package br.com.market.place.domain.product.entity;
 
+import br.com.market.place.domain.product.boundary.ReadProductOutputBoundary;
 import br.com.market.place.domain.product.value.ProductId;
 import br.com.market.place.domain.product.value.Quantity;
 import br.com.market.place.domain.product.value.Title;
@@ -65,6 +66,19 @@ public class Product {
         setQuantity(getQuantity().add(quantity));
     }
 
+    public void changeTitle(String title, String description) {
+        setTitle(new Title(title, description));
+    }
+
+    public void changePrice(String price, String currencyType) {
+        setPrice(new Currency(price, currencyType));
+    }
+
+    public void changeTag(String tag) {
+        setTag(tag);
+        new DomainValidator().validate(this);
+    }
+
     public ProductId getId() {
         return id;
     }
@@ -105,8 +119,20 @@ public class Product {
         return updateAt;
     }
 
-    public void setQuantity(Quantity quantity) {
+    protected void setQuantity(Quantity quantity) {
         this.quantity = quantity;
+    }
+
+    public ReadProductOutputBoundary toOutputBoundary() {
+        return new ReadProductOutputBoundary(
+                getId().toString(),
+                getTitle().title(),
+                getTitle().description(),
+                getTag(),
+                getQuantity().value(),
+                getPrice().formatted(),
+                getCreateAt().dateFormatted()
+        );
     }
 
     public static final class Builder {

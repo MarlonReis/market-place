@@ -4,7 +4,7 @@ import br.com.market.place.domain.customer.boundary.physical.CreatePhysicalInput
 import br.com.market.place.domain.customer.boundary.physical.ReadPhysicalOutputBoundary;
 import br.com.market.place.domain.customer.boundary.physical.UpdatePhysicalInputBoundary;
 import br.com.market.place.domain.shared.boundary.ResponseBoundary;
-import br.com.market.place.infrastructure.service.PhysicalService;
+import br.com.market.place.infrastructure.service.customer.PhysicalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -4,7 +4,7 @@ import br.com.market.place.domain.customer.boundary.legal.CreateLegalInputBounda
 import br.com.market.place.domain.customer.boundary.legal.ReadLegalCustomerOutputBoundary;
 import br.com.market.place.domain.customer.boundary.legal.UpdateLegalInputBoundary;
 import br.com.market.place.domain.shared.boundary.ResponseBoundary;
-import br.com.market.place.infrastructure.service.LegalService;
+import br.com.market.place.infrastructure.service.customer.LegalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

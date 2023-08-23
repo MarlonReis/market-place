@@ -1,4 +1,4 @@
-package br.com.market.place.infrastructure.service;
+package br.com.market.place.infrastructure.service.payment;
 
 import br.com.market.place.domain.payment.boundary.CreateBilletInputBoundary;
 import br.com.market.place.domain.payment.service.PayLineService;

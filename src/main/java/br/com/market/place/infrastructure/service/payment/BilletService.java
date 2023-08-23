@@ -1,4 +1,4 @@
-package br.com.market.place.infrastructure.service;
+package br.com.market.place.infrastructure.service.payment;
 
 import br.com.market.place.domain.customer.entity.Customer;
 import br.com.market.place.domain.customer.repository.CustomerRepository;

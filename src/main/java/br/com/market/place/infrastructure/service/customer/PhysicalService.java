@@ -1,4 +1,4 @@
-package br.com.market.place.infrastructure.service;
+package br.com.market.place.infrastructure.service.customer;
 
 import br.com.market.place.domain.customer.boundary.physical.CreatePhysicalInputBoundary;
 import br.com.market.place.domain.customer.boundary.physical.ReadPhysicalOutputBoundary;
