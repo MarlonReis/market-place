@@ -12,6 +12,7 @@ import br.com.market.place.domain.shared.exception.CreateException;
 import br.com.market.place.domain.shared.exception.InvalidDataException;
 import br.com.market.place.domain.shared.exception.NotFoundException;
 import br.com.market.place.domain.shared.exception.UpdateException;
+import br.com.market.place.infrastructure.service.customer.PhysicalService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -91,4 +91,22 @@ class ProductTest {
         assertThat(exceptionEmpty.getMessage(), Matchers.is("Attribute price is required!"));
     }
 
+    @Test
+    void shouldChangeProductPrice() {
+        product.changePrice("03.39", "USD");
+        assertThat(product.getPrice(), Matchers.is(new Currency("3.39", "USD")));
+    }
+
+    @Test
+    void shouldChangeProductTag() {
+        product.changeTag("XXXXXXXX");
+        assertThat(product.getTag(), Matchers.is("XXXXXXXX"));
+    }
+
+    @Test
+    void shouldThrowInvalidDataExceptionWhenReceiveInvalidTag() {
+        var exception = assertThrows(InvalidDataException.class, () -> product.changeTag(""));
+        assertThat(exception.getMessage(), Matchers.is("Attribute tag is required!"));
+    }
+
 }

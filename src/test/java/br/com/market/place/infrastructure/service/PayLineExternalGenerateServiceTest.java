@@ -2,6 +2,7 @@ package br.com.market.place.infrastructure.service;
 
 import br.com.market.place.domain.payment.boundary.CreateBilletInputBoundary;
 import br.com.market.place.domain.payment.service.PayLineService;
+import br.com.market.place.infrastructure.service.payment.PayLineExternalGenerateService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.mock.mockito.SpyBean;

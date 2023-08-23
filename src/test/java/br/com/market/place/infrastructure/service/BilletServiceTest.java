@@ -12,6 +12,8 @@ import br.com.market.place.domain.shared.exception.CreateException;
 import br.com.market.place.domain.shared.exception.NotFoundException;
 import br.com.market.place.domain.shared.value.Address;
 import br.com.market.place.domain.shared.value.Currency;
+import br.com.market.place.infrastructure.service.payment.BilletService;
+import br.com.market.place.infrastructure.service.payment.PayLineExternalGenerateService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
